@@ -51,8 +51,8 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
         {
             private readonly TeamColour teamColour;
 
-            private readonly Color4 red = new Color4(129, 68, 65, 255);
-            private readonly Color4 blue = new Color4(41, 91, 97, 255);
+            private readonly Color4 red = new Color4(236, 55, 55, 255);
+            private readonly Color4 blue = new Color4(0, 157, 236, 255);
 
             private readonly Bindable<TournamentMatch> currentMatch = new Bindable<TournamentMatch>();
             private readonly Bindable<TournamentTeam> currentTeam = new Bindable<TournamentTeam>();
@@ -160,7 +160,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
 
                 Flag.Anchor = Flag.Origin = anchor;
                 Flag.RelativeSizeAxes = Axes.None;
-                Flag.Size = new Vector2(60, 40);
+                Flag.Size = new Vector2(60, 60);
                 Flag.Margin = new MarginPadding(20);
 
                 InternalChild = new Container
@@ -171,11 +171,11 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                         Flag,
                         new OsuSpriteText
                         {
-                            Text = team?.FullName.Value.ToUpper() ?? "???",
+                            Text = team.FullName.Value ?? "???",
                             X = (flip ? -1 : 1) * 90,
                             Y = -10,
                             Colour = colour,
-                            Font = TournamentFont.GetFont(typeface: TournamentTypeface.Aquatico, weight: FontWeight.Regular, size: 20),
+                            Font = TournamentFont.GetFont(size: 36),
                             Origin = anchor,
                             Anchor = anchor,
                         },

@@ -25,8 +25,8 @@ namespace osu.Game.Tournament.Tests.Components
             Container<DrawableTournamentMatch> level2;
 
             var match1 = new TournamentMatch(
-                new TournamentTeam { FlagName = { Value = "AU" }, FullName = { Value = "Australia" }, },
-                new TournamentTeam { FlagName = { Value = "JP" }, FullName = { Value = "Japan" }, Acronym = { Value = "JPN" } })
+                new TournamentTeam { FlagName = { Value = "654296" }, FullName = { Value = "Bitcoin" }, },
+                new TournamentTeam { FlagName = { Value = "147515" }, FullName = { Value = "Rucker" }, Acronym = { Value = "147515" } })
             {
                 Team1Score = { Value = 4 },
                 Team2Score = { Value = 1 },
@@ -35,8 +35,8 @@ namespace osu.Game.Tournament.Tests.Components
             var match2 = new TournamentMatch(
                 new TournamentTeam
                 {
-                    FlagName = { Value = "RO" },
-                    FullName = { Value = "Romania" },
+                    FlagName = { Value = "2472609" },
+                    FullName = { Value = "Imokora" },
                 }
             );
 

@@ -48,8 +48,8 @@ namespace osu.Game.Tournament.Components
         {
             if (Team == null) return;
 
-            (acronym = Team.Acronym.GetBoundCopy()).BindValueChanged(acronym => AcronymText.Text = Team?.Acronym.Value?.ToUpperInvariant() ?? string.Empty, true);
-            (flag = Team.FlagName.GetBoundCopy()).BindValueChanged(acronym => Flag.Texture = textures.Get($@"Flags/{Team.FlagName}"), true);
+            (acronym = Team.Acronym.GetBoundCopy()).BindValueChanged(acronym => AcronymText.Text = Team.Acronym.Value, true);
+            (flag = Team.FlagName.GetBoundCopy()).BindValueChanged(acronym => Flag.Texture = textures.Get($@"https://a.ppy.sh/{Team.FlagName}"), true);
         }
     }
 }

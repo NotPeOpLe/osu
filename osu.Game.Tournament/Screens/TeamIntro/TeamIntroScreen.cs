@@ -121,7 +121,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
                                 Colour = col,
-                                Text = match.Date.Value.ToUniversalTime().ToString("dd MMMM HH:mm UTC"),
+                                Text = match.Date.Value.ToLocalTime().ToString("MM dd HH:mm UTC+8"),
                                 Font = OsuFont.GetFont(size: 20)
                             },
                         }
@@ -132,8 +132,8 @@ namespace osu.Game.Tournament.Screens.TeamIntro
 
         private class TeamWithPlayers : CompositeDrawable
         {
-            private readonly Color4 red = new Color4(129, 68, 65, 255);
-            private readonly Color4 blue = new Color4(41, 91, 97, 255);
+            private readonly Color4 red = new Color4(236, 55, 55, 255);
+            private readonly Color4 blue = new Color4(0, 157, 236, 255);
 
             public TeamWithPlayers(TournamentTeam team, bool left = false)
             {
@@ -141,7 +141,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                 var colour = left ? red : blue;
                 InternalChildren = new Drawable[]
                 {
-                    new TeamDisplay(team, left ? "Team Red" : "Team Blue", colour)
+                    new TeamDisplay(team, left ? "Red" : "Blue", colour)
                     {
                         Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
                         Origin = Anchor.Centre,
@@ -186,7 +186,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
 
                     Flag.Anchor = Flag.Origin = Anchor.TopCentre;
                     Flag.RelativeSizeAxes = Axes.None;
-                    Flag.Size = new Vector2(300, 200);
+                    Flag.Size = new Vector2(300, 300);
                     Flag.Scale = new Vector2(0.4f);
                     Flag.Margin = new MarginPadding { Bottom = 20 };
 
@@ -200,16 +200,16 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             Flag,
                             new OsuSpriteText
                             {
-                                Text = team?.FullName.Value.ToUpper() ?? "???",
-                                Font = TournamentFont.GetFont(TournamentTypeface.Aquatico, 40, FontWeight.Light),
+                                Text = team.FullName.Value ?? "???",
+                                Font = TournamentFont.GetFont(size:40, weight:FontWeight.Regular),
                                 Colour = Color4.Black,
                                 Origin = Anchor.TopCentre,
                                 Anchor = Anchor.TopCentre,
                             },
                             new OsuSpriteText
                             {
-                                Text = teamName.ToUpper(),
-                                Font = TournamentFont.GetFont(TournamentTypeface.Aquatico, 20, FontWeight.Regular),
+                                Text = teamName,
+                                Font = TournamentFont.GetFont(size:20, weight:FontWeight.Regular),
                                 Colour = colour,
                                 Origin = Anchor.TopCentre,
                                 Anchor = Anchor.TopCentre,

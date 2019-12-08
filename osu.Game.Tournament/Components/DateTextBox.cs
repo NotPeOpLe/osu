@@ -17,7 +17,7 @@ namespace osu.Game.Tournament.Components
             {
                 bindable = value.GetBoundCopy();
                 bindable.BindValueChanged(dto =>
-                    base.Bindable.Value = dto.NewValue.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"), true);
+                    base.Bindable.Value = dto.NewValue.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"), true); //時間調整有問題就改回ToUniversalTime
             }
         }
 
