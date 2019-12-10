@@ -10,6 +10,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Input.Events;
 using osu.Game.Graphics.Containers;
+using System.IO;
 
 namespace osu.Game.Users.Drawables
 {
@@ -42,7 +43,26 @@ namespace osu.Game.Users.Drawables
                 throw new ArgumentNullException(nameof(textures));
 
             Texture texture = null;
-            if (user != null && user.Id > 1) texture = textures.Get($@"https://a.ppy.sh/{user.Id}");
+            if (user != null && user.Id > 1)
+            {
+                if (!File.Exists($"User Avatar\\{user.Id}.png"))
+                {
+                    try
+                    {
+                        if (!Directory.Exists("User Avatar")) Directory.CreateDirectory("User Avatar");
+
+                        var fileWebRequest = new Framework.IO.Network.WebRequest($@"https://a.ppy.sh/{user.Id}")
+                        {
+                            Method = System.Net.Http.HttpMethod.Get
+                        };
+                        fileWebRequest.Perform();
+
+                        File.WriteAllBytes($"User Avatar\\{user.Id}.png", fileWebRequest.GetResponseData());
+                    }
+                    catch (Exception) { }
+                }
+                if (File.Exists($"User Avatar\\{user.Id}.png")) texture = Texture.FromStream(File.OpenRead($"User Avatar\\{user.Id}.png"));
+            }
             if (texture == null) texture = textures.Get(@"Online/avatar-guest");
 
             ClickableArea clickableArea;

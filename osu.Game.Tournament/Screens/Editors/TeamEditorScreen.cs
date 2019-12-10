@@ -30,12 +30,12 @@ namespace osu.Game.Tournament.Screens.Editors
         [BackgroundDependencyLoader]
         private void load()
         {
-            ControlPanel.Add(new TourneyButton
-            {
-                RelativeSizeAxes = Axes.X,
-                Text = "Add all countries",
-                Action = addAllCountries
-            });
+            //ControlPanel.Add(new TourneyButton
+            //{
+            //    RelativeSizeAxes = Axes.X,
+            //    Text = "Add all countries",
+            //    Action = addAllCountries
+            //});
         }
 
         protected override TeamRow CreateDrawable(TournamentTeam model) => new TeamRow(model);
@@ -95,31 +95,31 @@ namespace osu.Game.Tournament.Screens.Editors
                         AutoSizeAxes = Axes.Y,
                         Children = new Drawable[]
                         {
+                            //new SettingsTextBox
+                            //{
+                            //    LabelText = "Name",
+                            //    Width = 0.2f,
+                            //    Bindable = Model.FullName
+                            //},
                             new SettingsTextBox
                             {
                                 LabelText = "Name",
-                                Width = 0.2f,
-                                Bindable = Model.FullName
-                            },
-                            new SettingsTextBox
-                            {
-                                LabelText = "Acronym",
                                 Width = 0.2f,
                                 Bindable = Model.Acronym
                             },
                             new SettingsTextBox
                             {
-                                LabelText = "Flag",
+                                LabelText = "ID",
                                 Width = 0.2f,
                                 Bindable = Model.FlagName
                             },
-                            new SettingsButton
-                            {
-                                Width = 0.11f,
-                                Margin = new MarginPadding(10),
-                                Text = "Add player",
-                                Action = () => playerEditor.CreateNew()
-                            },
+                            //new SettingsButton
+                            //{
+                            //    Width = 0.11f,
+                            //    Margin = new MarginPadding(10),
+                            //    Text = "Add player",
+                            //    Action = () => playerEditor.CreateNew()
+                            //},
                             new DangerousSettingsButton
                             {
                                 Width = 0.11f,

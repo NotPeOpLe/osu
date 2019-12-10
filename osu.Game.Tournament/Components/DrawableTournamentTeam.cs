@@ -1,6 +1,8 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
+using System.IO;
 using JetBrains.Annotations;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -48,8 +50,34 @@ namespace osu.Game.Tournament.Components
         {
             if (Team == null) return;
 
-            (acronym = Team.Acronym.GetBoundCopy()).BindValueChanged(acronym => AcronymText.Text = Team.Acronym.Value, true);
-            (flag = Team.FlagName.GetBoundCopy()).BindValueChanged(acronym => Flag.Texture = textures.Get($@"https://a.ppy.sh/{Team.FlagName}"), true);
+            (acronym = Team.Acronym.GetBoundCopy()).BindValueChanged(acronym =>
+            {
+                AcronymText.Text = Team.Acronym.Value;
+                Team.FullName.Value = AcronymText.Text;
+            }, true);
+            (flag = Team.FlagName.GetBoundCopy()).BindValueChanged(acronym =>
+            {
+                if (long.TryParse(Team.FlagName.Value, out long userid) && userid > 0)
+                {
+                    if (!File.Exists($"User Avatar\\{userid}.png"))
+                    {
+                        try
+                        {
+                            if (!Directory.Exists("User Avatar")) Directory.CreateDirectory("User Avatar");
+
+                            var fileWebRequest = new Framework.IO.Network.WebRequest($@"https://a.ppy.sh/{userid}")
+                            {
+                                Method = System.Net.Http.HttpMethod.Get
+                            };
+                            fileWebRequest.Perform();
+
+                            File.WriteAllBytes($"User Avatar\\{userid}.png", fileWebRequest.GetResponseData());
+                        }
+                        catch (Exception) { }
+                    }
+                    else Flag.Texture = Texture.FromStream(File.OpenRead($"User Avatar\\{userid}.png"));
+                }
+            }, true);
         }
     }
 }
