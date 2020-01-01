@@ -56,7 +56,8 @@ namespace osu.Game.Tournament.IPC
 
                 const string file_ipc_filename = "ipc.txt";
                 const string file_ipc_state_filename = "ipc-state.txt";
-                const string file_ipc_scores_filename = "ipc-scores.txt";
+                const string file_ipc_acc0_filename = "rtpp.txt";
+                const string file_ipc_acc1_filename = "rtpp1.txt";
                 const string file_ipc_channel_filename = "ipc-channel.txt";
 
                 if (Storage.Exists(file_ipc_filename))
@@ -123,10 +124,21 @@ namespace osu.Game.Tournament.IPC
 
                         try
                         {
-                            using (var stream = Storage.GetStream(file_ipc_scores_filename))
+                            using (var stream = Storage.GetStream(file_ipc_acc0_filename))
                             using (var sr = new StreamReader(stream))
                             {
                                 Score1.Value = int.Parse(sr.ReadLine());
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // file might be in use.
+                        }
+                        try
+                        {
+                            using (var stream = Storage.GetStream(file_ipc_acc1_filename))
+                            using (var sr = new StreamReader(stream))
+                            {
                                 Score2.Value = int.Parse(sr.ReadLine());
                             }
                         }
@@ -163,12 +175,12 @@ namespace osu.Game.Tournament.IPC
                 {
                     try
                     {
-                        stableInstallPath = "G:\\My Drive\\Main\\osu!tourney";
+                        stableInstallPath = "D:\\osu!tourney";
 
                         if (checkExists(stableInstallPath))
                             return stableInstallPath;
 
-                        stableInstallPath = "G:\\My Drive\\Main\\osu!mappool";
+                        stableInstallPath = "E:\\osu!tourney";
 
                         if (checkExists(stableInstallPath))
                             return stableInstallPath;

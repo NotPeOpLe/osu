@@ -112,14 +112,14 @@ namespace osu.Game.Tournament.Screens.Schedule
                                 Margin = new MarginPadding { Left = -10, Bottom = 10, Top = -5 },
                                 Spacing = new Vector2(10, 0),
                                 Text = match.NewValue.Round.Value?.Name.Value,
-                                Colour = Color4.Black,
+                                Colour = Color4.White,
                                 Font = OsuFont.GetFont(size: 20)
                             },
                             new ScheduleMatch(match.NewValue, false),
                             new OsuSpriteText
                             {
                                 Text = "開始時間 " + match.NewValue.Date.Value.ToLocalTime().ToString("HH:mm UTC+8"),
-                                Colour = Color4.Black,
+                                Colour = Color4.White,
                                 Font = OsuFont.GetFont(size: 20)
                             },
                         }
@@ -146,7 +146,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                     {
                         Anchor = Anchor.TopRight,
                         Origin = Anchor.TopLeft,
-                        Colour = Color4.Black,
+                        Colour = Color4.White,
                         Alpha = conditional ? 0.6f : 1,
                         Margin = new MarginPadding { Horizontal = 10, Vertical = 5 },
                     });
@@ -154,7 +154,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                     {
                         Anchor = Anchor.BottomRight,
                         Origin = Anchor.BottomLeft,
-                        Colour = Color4.Black,
+                        Colour = Color4.White,
                         Alpha = conditional ? 0.6f : 1,
                         Margin = new MarginPadding { Horizontal = 10, Vertical = 5 },
                         Text = match.Date.Value.ToLocalTime().ToString("HH:mm UTC") + (conditional ? " (如果有)" : "")
@@ -178,7 +178,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                     {
                         X = 30,
                         Text = title,
-                        Colour = Color4.Black,
+                        Colour = Color4.White,
                         Spacing = new Vector2(10, 0),
                         Font = OsuFont.GetFont(size: 30)
                     },

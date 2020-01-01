@@ -135,7 +135,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                 InternalChild = counter = new StarCounter(count)
                 {
                     Anchor = anchor,
-                    X = (flip ? -1 : 1) * 90,
+                    X = (flip ? -1 : 1) * 100,
                     Y = 5,
                     Scale = flip ? new Vector2(-1, 1) : Vector2.One,
                 };
@@ -160,7 +160,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
 
                 Flag.Anchor = Flag.Origin = anchor;
                 Flag.RelativeSizeAxes = Axes.None;
-                Flag.Size = new Vector2(60, 60);
+                Flag.Size = new Vector2(72, 72);
                 Flag.Margin = new MarginPadding(20);
 
                 InternalChild = new Container
@@ -172,10 +172,10 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                         new OsuSpriteText
                         {
                             Text = team.FullName.Value ?? "???",
-                            X = (flip ? -1 : 1) * 90,
+                            X = (flip ? -1 : 1) * 100,
                             Y = -10,
                             Colour = colour,
-                            Font = TournamentFont.GetFont(size: 36),
+                            Font = TournamentFont.GetFont(size: 38),
                             Origin = anchor,
                             Anchor = anchor,
                         },
@@ -211,7 +211,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                         Origin = Anchor.Centre,
                         Colour = Color4.White,
                         Text = match.NewValue.Round.Value?.Name.Value ?? "Unknown Round",
-                        Font = TournamentFont.GetFont(typeface: TournamentTypeface.Aquatico, weight: FontWeight.Regular, size: 18),
+                        Font = TournamentFont.GetFont(typeface: TournamentTypeface.Aquatico, weight: FontWeight.Regular, size: 20),
                     },
                 };
             }

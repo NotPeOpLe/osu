@@ -126,7 +126,7 @@ namespace osu.Game.Tournament.Screens.Ladder
                     else
                         paths.Add(new ProgressionPath(match, dest) { Colour = match.Match.Losers.Value ? losersPathColour : normalPathColour });
                 }
-
+                
                 if (DrawLoserPaths)
                 {
                     if (match.Match.LosersProgression.Value != null)

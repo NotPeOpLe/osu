@@ -123,7 +123,7 @@ namespace osu.Game.Tournament.Screens.Editors
                             new DangerousSettingsButton
                             {
                                 Width = 0.11f,
-                                Text = "Delete Team",
+                                Text = "Delete User",
                                 Margin = new MarginPadding(10),
                                 Action = () =>
                                 {

@@ -85,8 +85,6 @@ namespace osu.Game.Tournament.Screens.TeamIntro
         {
             public RoundDisplay(TournamentMatch match)
             {
-                var col = OsuColour.Gray(0.33f);
-
                 InternalChildren = new Drawable[]
                 {
                     new FillFlowContainer
@@ -102,7 +100,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             {
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
-                                Colour = col,
+                                Colour = Color4.White,
                                 Text = "COMING UP NEXT",
                                 Spacing = new Vector2(2, 0),
                                 Font = OsuFont.GetFont(size: 15, weight: FontWeight.Black)
@@ -111,7 +109,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             {
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
-                                Colour = col,
+                                Colour = Color4.White,
                                 Text = match.Round.Value?.Name.Value ?? "Unknown Round",
                                 Spacing = new Vector2(10, 0),
                                 Font = OsuFont.GetFont(size: 50, weight: FontWeight.Light)
@@ -120,7 +118,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             {
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
-                                Colour = col,
+                                Colour = Color4.White,
                                 Text = match.Date.Value.ToLocalTime().ToString("MM dd HH:mm UTC+8"),
                                 Font = OsuFont.GetFont(size: 20)
                             },

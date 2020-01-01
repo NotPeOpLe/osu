@@ -34,14 +34,14 @@ namespace osu.Game.Tournament.Screens.Ladder.Components
                 {
                     textDescription = new OsuSpriteText
                     {
-                        Colour = Color4.Black,
+                        Colour = Color4.White,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre
                     },
                     textName = new OsuSpriteText
                     {
                         Font = OsuFont.GetFont(weight: FontWeight.Bold),
-                        Colour = Color4.Black,
+                        Colour = Color4.White,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre
                     },
