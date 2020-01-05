@@ -29,8 +29,8 @@ namespace osu.Game.Tournament.Screens.Gameplay
         private OsuButton warmupButton;
         private MatchIPCInfo ipc;
 
-        private readonly Color4 red = new Color4(236, 55, 55, 255);
-        private readonly Color4 blue = new Color4(0, 157, 236, 255);
+        private readonly Color4 red = new Color4(186, 0, 18, 255);
+        private readonly Color4 blue = new Color4(17, 136, 170, 255);
 
         [Resolved(canBeNull: true)]
         private TournamentSceneManager sceneManager { get; set; }
@@ -146,7 +146,7 @@ namespace osu.Game.Tournament.Screens.Gameplay
                 {
                     if (warmup.Value) return;
 
-                    if (ipc.Score1.Value > ipc.Score2.Value)
+                    if (ipc.Acc1.Value > ipc.Acc2.Value)
                         currentMatch.Value.Team1Score.Value++;
                     else
                         currentMatch.Value.Team2Score.Value++;
