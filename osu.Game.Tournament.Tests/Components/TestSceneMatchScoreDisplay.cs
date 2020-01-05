@@ -31,9 +31,9 @@ namespace osu.Game.Tournament.Tests.Components
             {
                 int amount = (int)((RNG.NextDouble() - 0.5) * 10000);
                 if (amount < 0)
-                    matchInfo.Score1.Value -= amount;
+                    matchInfo.Acc1.Value -= amount;
                 else
-                    matchInfo.Score2.Value += amount;
+                    matchInfo.Acc1.Value += amount;
             }, 100, true);
         }
     }
