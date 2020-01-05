@@ -22,8 +22,8 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
 
         private const float bar_height = 20;
 
-        private readonly BindableInt score1 = new BindableInt();
-        private readonly BindableInt score2 = new BindableInt();
+        private readonly BindableFloat score1 = new BindableFloat();
+        private readonly BindableFloat score2 = new BindableFloat();
 
         private readonly MatchScoreCounter score1Text;
         private readonly MatchScoreCounter score2Text;
@@ -50,6 +50,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                 },
                 score1Text = new MatchScoreCounter
                 {
+                    
                     Colour = red,
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre
@@ -77,10 +78,10 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
         private void load(LadderInfo ladder, MatchIPCInfo ipc)
         {
             score1.BindValueChanged(_ => updateScores());
-            score1.BindTo(ipc.Score1);
+            score1.BindTo(ipc.Acc1);
 
             score2.BindValueChanged(_ => updateScores());
-            score2.BindTo(ipc.Score2);
+            score2.BindTo(ipc.Acc2);
         }
 
         private void updateScores()
@@ -100,7 +101,8 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             var diff = Math.Max(score1.Value, score2.Value) - Math.Min(score1.Value, score2.Value);
 
             losingBar.ResizeWidthTo(0, 400, Easing.OutQuint);
-            winningBar.ResizeWidthTo(Math.Min(0.4f, MathF.Pow(diff / 1500000f, 0.5f) / 2), 400, Easing.OutQuint);
+            winningBar.ResizeWidthTo(Math.Min(0.4f, diff * 10), 400, Easing.OutQuint);
+            //MathF.Pow(diff / 1500000f, 0.5f) / 2
         }
 
         protected override void Update()
@@ -111,7 +113,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             score2Text.X = Math.Max(5 + score2Text.DrawWidth / 2, score2Bar.DrawWidth);
         }
 
-        private class MatchScoreCounter : ScoreCounter
+        private class MatchScoreCounter : PercentageCounter
         {
             public MatchScoreCounter()
             {
