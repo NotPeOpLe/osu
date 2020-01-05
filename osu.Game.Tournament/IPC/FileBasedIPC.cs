@@ -16,6 +16,7 @@ using osu.Game.Online.API;
 using osu.Game.Online.API.Requests;
 using osu.Game.Rulesets;
 using osu.Game.Tournament.Models;
+using System.IO.MemoryMappedFiles;
 
 namespace osu.Game.Tournament.IPC
 {
@@ -56,9 +57,9 @@ namespace osu.Game.Tournament.IPC
 
                 const string file_ipc_filename = "ipc.txt";
                 const string file_ipc_state_filename = "ipc-state.txt";
-                const string file_ipc_acc0_filename = "rtpp.txt";
-                const string file_ipc_acc1_filename = "rtpp1.txt";
                 const string file_ipc_channel_filename = "ipc-channel.txt";
+                //const string file_ipc_rtpp1_filename = "rtpp.txt";
+                const string file_ipc_rtpp2_filename = "rtpp1.txt";
 
                 if (Storage.Exists(file_ipc_filename))
                 {
@@ -122,30 +123,47 @@ namespace osu.Game.Tournament.IPC
                             // file might be in use.
                         }
 
+                        //try
+                        //{
+                        //    using (var stream = Storage.GetStream(file_ipc_rtpp1_filename))
+                        //    using (var sr = new StreamReader(stream))
+                        //    {
+                        //        Acc1.Value = float.Parse(sr.ReadLine());
+                        //    }
+                        //}
+                        //catch (Exception)
+                        //{
+                        //    // file might be in use.
+                        //}
+
                         try
                         {
-                            using (var stream = Storage.GetStream(file_ipc_acc0_filename))
+                            using (var stream = Storage.GetStream(file_ipc_rtpp2_filename))
                             using (var sr = new StreamReader(stream))
                             {
-                                Score1.Value = int.Parse(sr.ReadLine());
+                                Acc2.Value = float.Parse(sr.ReadLine());
                             }
                         }
                         catch (Exception)
                         {
                             // file might be in use.
                         }
+
+
                         try
                         {
-                            using (var stream = Storage.GetStream(file_ipc_acc1_filename))
+                            using (var stream = MemoryMappedFile.OpenExisting("rtpp").CreateViewStream())
                             using (var sr = new StreamReader(stream))
                             {
-                                Score2.Value = int.Parse(sr.ReadLine());
+                                Acc1.Value = float.Parse(sr.ReadLine());
                             }
+
                         }
                         catch (Exception)
                         {
-                            // file might be in use.
+
                         }
+
                     }, 250, true);
                 }
             }
@@ -175,12 +193,12 @@ namespace osu.Game.Tournament.IPC
                 {
                     try
                     {
-                        stableInstallPath = "D:\\osu!tourney";
+                        stableInstallPath = "G:\\My Drive\\Main\\osu!tourney";
 
                         if (checkExists(stableInstallPath))
                             return stableInstallPath;
 
-                        stableInstallPath = "E:\\osu!tourney";
+                        stableInstallPath = "G:\\My Drive\\Main\\osu!mappool";
 
                         if (checkExists(stableInstallPath))
                             return stableInstallPath;
