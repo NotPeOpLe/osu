@@ -51,8 +51,8 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
         {
             private readonly TeamColour teamColour;
 
-            private readonly Color4 red = new Color4(236, 55, 55, 255);
-            private readonly Color4 blue = new Color4(0, 157, 236, 255);
+            private readonly Color4 red = new Color4(245, 93, 93, 255);
+            private readonly Color4 blue = new Color4(7, 184, 245, 255);
 
             private readonly Bindable<TournamentMatch> currentMatch = new Bindable<TournamentMatch>();
             private readonly Bindable<TournamentTeam> currentTeam = new Bindable<TournamentTeam>();

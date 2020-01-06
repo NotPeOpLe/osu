@@ -29,8 +29,8 @@ namespace osu.Game.Tournament.Screens.Gameplay
         private OsuButton warmupButton;
         private MatchIPCInfo ipc;
 
-        private readonly Color4 red = new Color4(186, 0, 18, 255);
-        private readonly Color4 blue = new Color4(17, 136, 170, 255);
+        private readonly Color4 red = new Color4(210, 21, 21, 255);
+        private readonly Color4 blue = new Color4(5, 140, 186, 255);
 
         [Resolved(canBeNull: true)]
         private TournamentSceneManager sceneManager { get; set; }

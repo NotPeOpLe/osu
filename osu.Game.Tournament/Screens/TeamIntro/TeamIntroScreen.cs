@@ -119,7 +119,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
                                 Colour = Color4.White,
-                                Text = match.Date.Value.ToLocalTime().ToString("MM dd HH:mm UTC+8"),
+                                Text = match.Date.Value.ToLocalTime().ToString("MM/dd HH:mm UTC+8"),
                                 Font = OsuFont.GetFont(size: 20)
                             },
                         }
@@ -130,9 +130,8 @@ namespace osu.Game.Tournament.Screens.TeamIntro
 
         private class TeamWithPlayers : CompositeDrawable
         {
-            private readonly Color4 red = new Color4(236, 55, 55, 255);
-            private readonly Color4 blue = new Color4(0, 157, 236, 255);
-
+            private readonly Color4 red = new Color4(245, 93, 93, 255);
+            private readonly Color4 blue = new Color4(7, 184, 245, 255);
             public TeamWithPlayers(TournamentTeam team, bool left = false)
             {
                 FillFlowContainer players;

@@ -107,7 +107,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
         {
             public RoundDisplay(TournamentMatch match)
             {
-                var col = OsuColour.Gray(0.33f);
+                //var col = OsuColour.Gray(0.33f);
 
                 InternalChildren = new Drawable[]
                 {
@@ -124,26 +124,26 @@ namespace osu.Game.Tournament.Screens.TeamWin
                             {
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
-                                Colour = col,
+                                Colour = Color4.White,
                                 Text = "WINNER",
-                                Font = TournamentFont.GetFont(TournamentTypeface.Aquatico, 20, FontWeight.Regular),
+                                Font = TournamentFont.GetFont(size: 20, weight: FontWeight.Regular),
                             },
                             new OsuSpriteText
                             {
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
-                                Colour = col,
+                                Colour = Color4.White,
                                 Text = match.Round.Value?.Name.Value ?? "Unknown Round",
-                                Font = TournamentFont.GetFont(TournamentTypeface.Aquatico, 50, FontWeight.Light),
+                                Font = TournamentFont.GetFont(size: 50, weight: FontWeight.Light),
                                 Spacing = new Vector2(10, 0),
                             },
                             new OsuSpriteText
                             {
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
-                                Colour = col,
-                                Text = match.Date.Value.ToUniversalTime().ToString("MM dd HH:mm UTC+8"),
-                                Font = TournamentFont.GetFont(TournamentTypeface.Aquatico, 20, FontWeight.Light),
+                                Colour = Color4.White,
+                                Text = match.Date.Value.ToUniversalTime().ToString("MM/dd HH:mm UTC+8"),
+                                Font = TournamentFont.GetFont(size: 20, weight: FontWeight.Light),
                             },
                         }
                     }
@@ -153,8 +153,8 @@ namespace osu.Game.Tournament.Screens.TeamWin
 
         private class TeamWithPlayers : CompositeDrawable
         {
-            private readonly Color4 red = new Color4(236, 55, 55, 255);
-            private readonly Color4 blue = new Color4(0, 157, 236, 255);
+            private readonly Color4 red = new Color4(245, 93, 93, 255);
+            private readonly Color4 blue = new Color4(7, 184, 245, 255);
 
             public TeamWithPlayers(TournamentTeam team, bool left = false)
             {
@@ -188,7 +188,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
 
                     Flag.Anchor = Flag.Origin = Anchor.TopCentre;
                     Flag.RelativeSizeAxes = Axes.None;
-                    Flag.Size = new Vector2(300, 300);
+                    Flag.Size = new Vector2(512, 512);
                     Flag.Scale = new Vector2(0.4f);
                     Flag.Margin = new MarginPadding { Bottom = 20 };
 
@@ -204,7 +204,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
                             {
                                 Text = team?.FullName.Value ?? "???",
                                 Font = TournamentFont.GetFont(TournamentTypeface.Aquatico, 40, FontWeight.Regular),
-                                Colour = Color4.Black,
+                                Colour = Color4.White,
                                 Origin = Anchor.TopCentre,
                                 Anchor = Anchor.TopCentre,
                             },

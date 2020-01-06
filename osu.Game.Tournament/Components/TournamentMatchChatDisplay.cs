@@ -86,8 +86,8 @@ namespace osu.Game.Tournament.Components
                 //    SenderText.Colour = ColourBox.Colour = OsuColour.FromHex(Message.Sender.Colour);
             }
 
-            private readonly Color4 red = new Color4(186, 0, 18, 255);
-            private readonly Color4 blue = new Color4(17, 136, 170, 255);
+            private readonly Color4 red = new Color4(245, 93, 93, 255);
+            private readonly Color4 blue = new Color4(7, 184, 245, 255);
         }
     }
 }
