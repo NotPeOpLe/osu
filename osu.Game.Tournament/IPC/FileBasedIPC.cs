@@ -204,12 +204,12 @@ namespace osu.Game.Tournament.IPC
                 {
                     try
                     {
-                        stableInstallPath = "G:\\My Drive\\Main\\osu!tourney";
+                        stableInstallPath = "D:\\osu!tourney";
 
                         if (checkExists(stableInstallPath))
                             return stableInstallPath;
 
-                        stableInstallPath = "G:\\My Drive\\Main\\osu!mappool";
+                        stableInstallPath = "E:\\osu!mappool";
 
                         if (checkExists(stableInstallPath))
                             return stableInstallPath;
