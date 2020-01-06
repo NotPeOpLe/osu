@@ -59,7 +59,7 @@ namespace osu.Game.Tournament.IPC
                 const string file_ipc_state_filename = "ipc-state.txt";
                 const string file_ipc_channel_filename = "ipc-channel.txt";
                 //const string file_ipc_rtpp1_filename = "rtpp.txt";
-                const string file_ipc_rtpp2_filename = "rtpp1.txt";
+                //const string file_ipc_rtpp2_filename = "rtpp1.txt";
 
                 if (Storage.Exists(file_ipc_filename))
                 {
@@ -136,9 +136,36 @@ namespace osu.Game.Tournament.IPC
                         //    // file might be in use.
                         //}
 
+                        //try
+                        //{
+                        //    using (var stream = Storage.GetStream(file_ipc_rtpp2_filename))
+                        //    using (var sr = new StreamReader(stream))
+                        //    {
+                        //        Acc2.Value = float.Parse(sr.ReadLine());
+                        //    }
+                        //}
+                        //catch (Exception)
+                        //{
+                        //    // file might be in use.
+                        //}
+
+
                         try
                         {
-                            using (var stream = Storage.GetStream(file_ipc_rtpp2_filename))
+                            using (var stream = MemoryMappedFile.OpenExisting("rtpp0").CreateViewStream())
+                            using (var sr = new StreamReader(stream))
+                            {
+                                Acc1.Value = float.Parse(sr.ReadLine());
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+
+                        try
+                        {
+                            using (var stream = MemoryMappedFile.OpenExisting("rtpp1").CreateViewStream())
                             using (var sr = new StreamReader(stream))
                             {
                                 Acc2.Value = float.Parse(sr.ReadLine());
@@ -146,24 +173,8 @@ namespace osu.Game.Tournament.IPC
                         }
                         catch (Exception)
                         {
-                            // file might be in use.
-                        }
-
-
-                        try
-                        {
-                            using (var stream = MemoryMappedFile.OpenExisting("rtpp").CreateViewStream())
-                            using (var sr = new StreamReader(stream))
-                            {
-                                Acc1.Value = float.Parse(sr.ReadLine());
-                            }
 
                         }
-                        catch (Exception)
-                        {
-
-                        }
-
                     }, 250, true);
                 }
             }
