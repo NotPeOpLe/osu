@@ -69,6 +69,10 @@ namespace osu.Game.Tournament
                 heightWarning.Alpha = size.NewValue.Width < minWidth ? 1 : 0;
             }), true);
 
+            frameworkConfig.Set(FrameworkSetting.WindowedSize, new Size(1664, 681));
+
+            Window.WindowBorder = osuTK.WindowBorder.Fixed;
+
             readBracket();
 
             ladder.CurrentMatch.Value = ladder.Matches.FirstOrDefault(p => p.Current.Value);
@@ -88,6 +92,17 @@ namespace osu.Game.Tournament
                     Origin = Anchor.BottomRight,
                     Padding = new MarginPadding(10),
                     Action = SaveChanges,
+                },
+                new TourneyButton
+                {
+                    Text = "清理記憶體",
+                    Width = 140,
+                    Height = 50,
+                    Depth = float.MinValue,
+                    Anchor = Anchor.CentreRight,
+                    Origin = Anchor.CentreRight,
+                    Padding = new MarginPadding(10),
+                    Action = () => { GC.Collect(); },
                 },
                 heightWarning = new Container
                 {
