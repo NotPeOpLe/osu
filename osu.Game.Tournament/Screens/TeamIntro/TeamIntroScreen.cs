@@ -200,7 +200,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             {
                                 Text = team.FullName.Value ?? "???",
                                 Font = TournamentFont.GetFont(size:40, weight:FontWeight.Regular),
-                                Colour = Color4.Black,
+                                Colour = Color4.White,
                                 Origin = Anchor.TopCentre,
                                 Anchor = Anchor.TopCentre,
                             },
