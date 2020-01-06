@@ -53,11 +53,11 @@ namespace osu.Desktop
                 switch (args.FirstOrDefault() ?? string.Empty)
                 {
                     default:
-                        host.Run(new OsuGameDesktop(args));
+                        host.Run(new TournamentGame());
                         break;
 
-                    case "--tournament":
-                        host.Run(new TournamentGame());
+                    case "--normal":
+                        host.Run(new OsuGameDesktop(args));
                         break;
                 }
 
