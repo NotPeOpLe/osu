@@ -61,7 +61,7 @@ namespace osu.Game.Tournament
                     //Masking = true,
                     Children = new Drawable[]
                     {
-                        video = new TourneyVideo(storage.GetStream("BG Logoless - OWC.m4v"))
+                        video = new TourneyVideo(storage.GetStream("BG Logoless - OWC.mp4"))
                         {
                             Loop = true,
                             RelativeSizeAxes = Axes.Both,
