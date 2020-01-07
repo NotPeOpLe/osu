@@ -87,7 +87,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                                     Width = 0.4f,
                                     ChildrenEnumerable = ladder.Matches
                                                                .Where(p => p.Completed.Value && p.Team1.Value != null && p.Team2.Value != null
-                                                                           && Math.Abs(p.Date.Value.DayOfYear - DateTimeOffset.UtcNow.DayOfYear) < 4)
+                                                                           && Math.Abs(p.Date.Value.DayOfYear - DateTimeOffset.Now.DayOfYear) < 4)
                                                                .OrderByDescending(p => p.Date.Value)
                                                                .Take(8)
                                                                .Select(p => new ScheduleMatch(p))
@@ -157,7 +157,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                         Colour = Color4.White,
                         Alpha = conditional ? 0.6f : 1,
                         Margin = new MarginPadding { Horizontal = 10, Vertical = 5 },
-                        Text = match.Date.Value.ToLocalTime().ToString("HH:mm UTC") + (conditional ? " (如果有)" : "")
+                        Text = match.Date.Value.ToLocalTime().ToString("HH:mm UTC+8") + (conditional ? " (如果有)" : "")
                     });
                 }
             }
