@@ -71,7 +71,7 @@ namespace osu.Game.Tournament
 
             frameworkConfig.Set(FrameworkSetting.WindowedSize, new Size(2700, 1140));
 
-            //Window.WindowBorder = osuTK.WindowBorder.Fixed;
+            Window.WindowBorder = osuTK.WindowBorder.Fixed;
 
             readBracket();
 
