@@ -143,7 +143,8 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                         Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
                         Origin = Anchor.Centre,
                         RelativePositionAxes = Axes.Both,
-                        X = (left ? -1 : 1) * 0.36f,
+                        X = (left ? -1 : 1) * 0.485f,
+                        Y = 0.09f
                     },
                     players = new FillFlowContainer
                     {
@@ -183,7 +184,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
 
                     Flag.Anchor = Flag.Origin = Anchor.TopCentre;
                     Flag.RelativeSizeAxes = Axes.None;
-                    Flag.Size = new Vector2(300, 300);
+                    Flag.Size = new Vector2(512, 512);
                     Flag.Scale = new Vector2(0.4f);
                     Flag.Margin = new MarginPadding { Bottom = 20 };
 
@@ -198,7 +199,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             new OsuSpriteText
                             {
                                 Text = team.FullName.Value ?? "???",
-                                Font = TournamentFont.GetFont(size:40, weight:FontWeight.Regular),
+                                Font = OsuFont.GetFont(size:40, weight:FontWeight.Regular),
                                 Colour = Color4.White,
                                 Origin = Anchor.TopCentre,
                                 Anchor = Anchor.TopCentre,
@@ -206,7 +207,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             new OsuSpriteText
                             {
                                 Text = teamName,
-                                Font = TournamentFont.GetFont(size:20, weight:FontWeight.Regular),
+                                Font = OsuFont.GetFont(size:20, weight:FontWeight.Regular),
                                 Colour = colour,
                                 Origin = Anchor.TopCentre,
                                 Anchor = Anchor.TopCentre,

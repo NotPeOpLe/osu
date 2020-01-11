@@ -69,9 +69,9 @@ namespace osu.Game.Tournament
                 heightWarning.Alpha = size.NewValue.Width < minWidth ? 1 : 0;
             }), true);
 
-            frameworkConfig.Set(FrameworkSetting.WindowedSize, new Size(2584, 1141));
+            frameworkConfig.Set(FrameworkSetting.WindowedSize, new Size(2700, 1140));
 
-            Window.WindowBorder = osuTK.WindowBorder.Fixed;
+            //Window.WindowBorder = osuTK.WindowBorder.Fixed;
 
             readBracket();
 

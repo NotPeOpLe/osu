@@ -213,6 +213,11 @@ namespace osu.Game.Tournament.IPC
 
                         if (checkExists(stableInstallPath))
                             return stableInstallPath;
+
+                        stableInstallPath = "D:\\osu!";
+
+                        if (checkExists(stableInstallPath))
+                            return stableInstallPath;
                     }
                     catch
                     {

@@ -126,7 +126,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
                                 Origin = Anchor.TopCentre,
                                 Colour = Color4.White,
                                 Text = "WINNER",
-                                Font = TournamentFont.GetFont(size: 20, weight: FontWeight.Regular),
+                                Font = OsuFont.GetFont(size: 20, weight: FontWeight.Regular),
                             },
                             new OsuSpriteText
                             {
@@ -134,7 +134,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
                                 Origin = Anchor.TopCentre,
                                 Colour = Color4.White,
                                 Text = match.Round.Value?.Name.Value ?? "Unknown Round",
-                                Font = TournamentFont.GetFont(size: 50, weight: FontWeight.Light),
+                                Font = OsuFont.GetFont(size: 50, weight: FontWeight.Light),
                                 Spacing = new Vector2(10, 0),
                             },
                             new OsuSpriteText
@@ -142,8 +142,8 @@ namespace osu.Game.Tournament.Screens.TeamWin
                                 Anchor = Anchor.TopCentre,
                                 Origin = Anchor.TopCentre,
                                 Colour = Color4.White,
-                                Text = match.Date.Value.ToUniversalTime().ToString("MM/dd HH:mm UTC+8"),
-                                Font = TournamentFont.GetFont(size: 20, weight: FontWeight.Light),
+                                Text = match.Date.Value.ToLocalTime().ToString("MM/dd HH:mm UTC+8"),
+                                Font = OsuFont.GetFont(size: 20, weight: FontWeight.Light),
                             },
                         }
                     }
@@ -203,7 +203,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
                             new OsuSpriteText
                             {
                                 Text = team?.FullName.Value ?? "???",
-                                Font = TournamentFont.GetFont(TournamentTypeface.Aquatico, 40, FontWeight.Regular),
+                                Font = OsuFont.GetFont(size: 40, weight: FontWeight.Regular),
                                 Colour = Color4.White,
                                 Origin = Anchor.TopCentre,
                                 Anchor = Anchor.TopCentre,
