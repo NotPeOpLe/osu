@@ -3,7 +3,7 @@
 
 using System;
 using System.Linq;
-using osu.Framework.MathUtils;
+using osu.Framework.Utils;
 using osu.Game.Beatmaps;
 using osu.Game.Replays;
 using osu.Game.Rulesets.Catch.Beatmaps;
@@ -32,7 +32,7 @@ namespace osu.Game.Rulesets.Catch.Replays
         public override Replay Generate()
         {
             // todo: add support for HT DT
-            const double dash_speed = CatcherArea.Catcher.BASE_SPEED;
+            const double dash_speed = Catcher.BASE_SPEED;
             const double movement_speed = dash_speed / 2;
             float lastPosition = 0.5f;
             double lastTime = 0;

@@ -25,21 +25,31 @@ using osu.Game.Rulesets.Mania.Beatmaps;
 using osu.Game.Rulesets.Mania.Configuration;
 using osu.Game.Rulesets.Mania.Difficulty;
 using osu.Game.Rulesets.Mania.Edit;
+using osu.Game.Rulesets.Mania.Scoring;
+using osu.Game.Rulesets.Mania.Skinning;
+using osu.Game.Rulesets.Scoring;
+using osu.Game.Skinning;
 using osu.Game.Scoring;
 
 namespace osu.Game.Rulesets.Mania
 {
-    public class ManiaRuleset : Ruleset
+    public class ManiaRuleset : Ruleset, ILegacyRuleset
     {
-        public override DrawableRuleset CreateDrawableRulesetWith(IWorkingBeatmap beatmap, IReadOnlyList<Mod> mods) => new DrawableManiaRuleset(this, beatmap, mods);
-        public override IBeatmapConverter CreateBeatmapConverter(IBeatmap beatmap) => new ManiaBeatmapConverter(beatmap);
+        public override DrawableRuleset CreateDrawableRulesetWith(IBeatmap beatmap, IReadOnlyList<Mod> mods = null) => new DrawableManiaRuleset(this, beatmap, mods);
+
+        public override ScoreProcessor CreateScoreProcessor() => new ManiaScoreProcessor();
+
+        public override IBeatmapConverter CreateBeatmapConverter(IBeatmap beatmap) => new ManiaBeatmapConverter(beatmap, this);
+
         public override PerformanceCalculator CreatePerformanceCalculator(WorkingBeatmap beatmap, ScoreInfo score) => new ManiaPerformanceCalculator(this, beatmap, score);
 
         public const string SHORT_NAME = "mania";
 
         public override HitObjectComposer CreateHitObjectComposer() => new ManiaHitObjectComposer(this);
 
-        public override IEnumerable<Mod> ConvertLegacyMods(LegacyMods mods)
+        public override ISkin CreateLegacySkinProvider(ISkinSource source, IBeatmap beatmap) => new ManiaLegacySkinTransformer(source, beatmap);
+
+        public override IEnumerable<Mod> ConvertFromLegacyMods(LegacyMods mods)
         {
             if (mods.HasFlag(LegacyMods.Nightcore))
                 yield return new ManiaModNightcore();
@@ -51,7 +61,9 @@ namespace osu.Game.Rulesets.Mania
             else if (mods.HasFlag(LegacyMods.SuddenDeath))
                 yield return new ManiaModSuddenDeath();
 
-            if (mods.HasFlag(LegacyMods.Autoplay))
+            if (mods.HasFlag(LegacyMods.Cinema))
+                yield return new ManiaModCinema();
+            else if (mods.HasFlag(LegacyMods.Autoplay))
                 yield return new ManiaModAutoplay();
 
             if (mods.HasFlag(LegacyMods.Easy))
@@ -106,6 +118,59 @@ namespace osu.Game.Rulesets.Mania
                 yield return new ManiaModRandom();
         }
 
+        public override LegacyMods ConvertToLegacyMods(Mod[] mods)
+        {
+            var value = base.ConvertToLegacyMods(mods);
+
+            foreach (var mod in mods)
+            {
+                switch (mod)
+                {
+                    case ManiaModKey1 _:
+                        value |= LegacyMods.Key1;
+                        break;
+
+                    case ManiaModKey2 _:
+                        value |= LegacyMods.Key2;
+                        break;
+
+                    case ManiaModKey3 _:
+                        value |= LegacyMods.Key3;
+                        break;
+
+                    case ManiaModKey4 _:
+                        value |= LegacyMods.Key4;
+                        break;
+
+                    case ManiaModKey5 _:
+                        value |= LegacyMods.Key5;
+                        break;
+
+                    case ManiaModKey6 _:
+                        value |= LegacyMods.Key6;
+                        break;
+
+                    case ManiaModKey7 _:
+                        value |= LegacyMods.Key7;
+                        break;
+
+                    case ManiaModKey8 _:
+                        value |= LegacyMods.Key8;
+                        break;
+
+                    case ManiaModKey9 _:
+                        value |= LegacyMods.Key9;
+                        break;
+
+                    case ManiaModFadeIn _:
+                        value |= LegacyMods.FadeIn;
+                        break;
+                }
+            }
+
+            return value;
+        }
+
         public override IEnumerable<Mod> GetModsFor(ModType type)
         {
             switch (type)
@@ -143,12 +208,13 @@ namespace osu.Game.Rulesets.Mania
                         new ManiaModRandom(),
                         new ManiaModDualStages(),
                         new ManiaModMirror(),
+                        new ManiaModDifficultyAdjust(),
                     };
 
                 case ModType.Automation:
                     return new Mod[]
                     {
-                        new MultiMod(new ManiaModAutoplay(), new ModCinema()),
+                        new MultiMod(new ManiaModAutoplay(), new ManiaModCinema()),
                     };
 
                 case ModType.Fun:
@@ -158,7 +224,7 @@ namespace osu.Game.Rulesets.Mania
                     };
 
                 default:
-                    return new Mod[] { };
+                    return Array.Empty<Mod>();
             }
         }
 
@@ -166,22 +232,19 @@ namespace osu.Game.Rulesets.Mania
 
         public override string ShortName => SHORT_NAME;
 
+        public override string PlayingVerb => "Smashing keys";
+
         public override Drawable CreateIcon() => new SpriteIcon { Icon = OsuIcon.RulesetMania };
 
         public override DifficultyCalculator CreateDifficultyCalculator(WorkingBeatmap beatmap) => new ManiaDifficultyCalculator(this, beatmap);
 
-        public override int? LegacyID => 3;
+        public int LegacyID => 3;
 
         public override IConvertibleReplayFrame CreateConvertibleReplayFrame() => new ManiaReplayFrame();
 
         public override IRulesetConfigManager CreateConfig(SettingsStore settings) => new ManiaRulesetConfigManager(settings, RulesetInfo);
 
         public override RulesetSettingsSubsection CreateSettings() => new ManiaSettingsSubsection(this);
-
-        public ManiaRuleset(RulesetInfo rulesetInfo = null)
-            : base(rulesetInfo)
-        {
-        }
 
         public override IEnumerable<int> AvailableVariants
         {
@@ -227,19 +290,19 @@ namespace osu.Game.Rulesets.Mania
                     {
                         LeftKeys = new[]
                         {
-                            InputKey.Number1,
-                            InputKey.Number2,
-                            InputKey.Number3,
-                            InputKey.Number4,
+                            InputKey.Q,
+                            InputKey.W,
+                            InputKey.E,
+                            InputKey.R,
                         },
                         RightKeys = new[]
                         {
-                            InputKey.Z,
                             InputKey.X,
                             InputKey.C,
-                            InputKey.V
+                            InputKey.V,
+                            InputKey.B
                         },
-                        SpecialKey = InputKey.Tilde,
+                        SpecialKey = InputKey.S,
                         SpecialAction = ManiaAction.Special1,
                         NormalActionStart = ManiaAction.Key1
                     }.GenerateKeyBindingsFor(keys, out var nextNormal);
@@ -255,12 +318,12 @@ namespace osu.Game.Rulesets.Mania
                         },
                         RightKeys = new[]
                         {
-                            InputKey.O,
-                            InputKey.P,
-                            InputKey.BracketLeft,
-                            InputKey.BracketRight
+                            InputKey.K,
+                            InputKey.L,
+                            InputKey.Semicolon,
+                            InputKey.Quote
                         },
-                        SpecialKey = InputKey.BackSlash,
+                        SpecialKey = InputKey.I,
                         SpecialAction = ManiaAction.Special2,
                         NormalActionStart = nextNormal
                     }.GenerateKeyBindingsFor(keys, out _);
@@ -268,7 +331,7 @@ namespace osu.Game.Rulesets.Mania
                     return stage1Bindings.Concat(stage2Bindings);
             }
 
-            return new KeyBinding[0];
+            return Array.Empty<KeyBinding>();
         }
 
         public override string GetVariantName(int variant)

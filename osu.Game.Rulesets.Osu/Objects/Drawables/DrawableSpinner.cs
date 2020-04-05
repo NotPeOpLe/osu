@@ -25,7 +25,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         public readonly SpinnerDisc Disc;
         public readonly SpinnerTicks Ticks;
-        private readonly SpinnerSpmCounter spmCounter;
+        public readonly SpinnerSpmCounter SpmCounter;
 
         private readonly Container mainContainer;
 
@@ -36,8 +36,8 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         private readonly SpriteIcon symbol;
 
-        private readonly Color4 baseColour = OsuColour.FromHex(@"002c3c");
-        private readonly Color4 fillColour = OsuColour.FromHex(@"005b7c");
+        private readonly Color4 baseColour = Color4Extensions.FromHex(@"002c3c");
+        private readonly Color4 fillColour = Color4Extensions.FromHex(@"005b7c");
 
         private readonly IBindable<Vector2> positionBindable = new Bindable<Vector2>();
 
@@ -110,7 +110,7 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
                         },
                     }
                 },
-                spmCounter = new SpinnerSpmCounter
+                SpmCounter = new SpinnerSpmCounter
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
@@ -176,20 +176,21 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables
 
         protected override void Update()
         {
-            Disc.Tracking = OsuActionInputManager?.PressedActions.Any(x => x == OsuAction.LeftButton || x == OsuAction.RightButton) ?? false;
-            if (!spmCounter.IsPresent && Disc.Tracking)
-                spmCounter.FadeIn(HitObject.TimeFadeIn);
-
             base.Update();
+            if (HandleUserInput)
+                Disc.Tracking = OsuActionInputManager?.PressedActions.Any(x => x == OsuAction.LeftButton || x == OsuAction.RightButton) ?? false;
         }
 
         protected override void UpdateAfterChildren()
         {
             base.UpdateAfterChildren();
 
+            if (!SpmCounter.IsPresent && Disc.Tracking)
+                SpmCounter.FadeIn(HitObject.TimeFadeIn);
+
             circle.Rotation = Disc.Rotation;
             Ticks.Rotation = Disc.Rotation;
-            spmCounter.SetRotation(Disc.RotationAbsolute);
+            SpmCounter.SetRotation(Disc.RotationAbsolute);
 
             float relativeCircleScale = Spinner.Scale * circle.DrawHeight / mainContainer.DrawHeight;
             Disc.ScaleTo(relativeCircleScale + (1 - relativeCircleScale) * Progress, 200, Easing.OutQuint);

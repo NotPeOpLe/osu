@@ -3,7 +3,7 @@
 
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
-using osu.Framework.MathUtils;
+using osu.Framework.Utils;
 using osu.Game.Tournament.IPC;
 using osu.Game.Tournament.Screens.Gameplay.Components;
 
@@ -31,9 +31,9 @@ namespace osu.Game.Tournament.Tests.Components
             {
                 int amount = (int)((RNG.NextDouble() - 0.5) * 10000);
                 if (amount < 0)
-                    matchInfo.Acc1.Value -= amount;
+                    matchInfo.Score1.Value -= amount;
                 else
-                    matchInfo.Acc1.Value += amount;
+                    matchInfo.Score2.Value += amount;
             }, 100, true);
         }
     }

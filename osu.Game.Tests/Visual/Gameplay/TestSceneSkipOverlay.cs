@@ -1,6 +1,7 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using System.Linq;
 using NUnit.Framework;
 using osu.Framework.Graphics;
@@ -13,7 +14,7 @@ using osuTK.Input;
 namespace osu.Game.Tests.Visual.Gameplay
 {
     [TestFixture]
-    public class TestSceneSkipOverlay : ManualInputManagerTestScene
+    public class TestSceneSkipOverlay : OsuManualInputManagerTestScene
     {
         private SkipOverlay skip;
         private int requestCount;
@@ -31,7 +32,7 @@ namespace osu.Game.Tests.Visual.Gameplay
             requestCount = 0;
             increment = skip_time;
 
-            Child = gameplayClockContainer = new GameplayClockContainer(CreateWorkingBeatmap(CreateBeatmap(new OsuRuleset().RulesetInfo)), new Mod[] { }, 0)
+            Child = gameplayClockContainer = new GameplayClockContainer(CreateWorkingBeatmap(CreateBeatmap(new OsuRuleset().RulesetInfo)), Array.Empty<Mod>(), 0)
             {
                 RelativeSizeAxes = Axes.Both,
                 Children = new Drawable[]

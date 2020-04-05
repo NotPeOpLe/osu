@@ -30,6 +30,13 @@ namespace osu.Game.Screens.Select.Carousel
                 Beatmap.RulesetID == criteria.Ruleset.ID ||
                 (Beatmap.RulesetID == 0 && criteria.Ruleset.ID > 0 && criteria.AllowConvertedBeatmaps);
 
+            if (Beatmap.BeatmapSet?.Equals(criteria.SelectedBeatmapSet) == true)
+            {
+                // only check ruleset equality or convertability for selected beatmap
+                Filtered.Value = !match;
+                return;
+            }
+
             match &= !criteria.StarDifficulty.HasFilter || criteria.StarDifficulty.IsInRange(Beatmap.StarDifficulty);
             match &= !criteria.ApproachRate.HasFilter || criteria.ApproachRate.IsInRange(Beatmap.BaseDifficulty.ApproachRate);
             match &= !criteria.DrainRate.HasFilter || criteria.DrainRate.IsInRange(Beatmap.BaseDifficulty.DrainRate);
@@ -43,6 +50,8 @@ namespace osu.Game.Screens.Select.Carousel
             match &= !criteria.Creator.HasFilter || criteria.Creator.Matches(Beatmap.Metadata.AuthorString);
             match &= !criteria.Artist.HasFilter || criteria.Artist.Matches(Beatmap.Metadata.Artist) ||
                      criteria.Artist.Matches(Beatmap.Metadata.ArtistUnicode);
+
+            match &= !criteria.UserStarDifficulty.HasFilter || criteria.UserStarDifficulty.IsInRange(Beatmap.StarDifficulty);
 
             if (match)
             {

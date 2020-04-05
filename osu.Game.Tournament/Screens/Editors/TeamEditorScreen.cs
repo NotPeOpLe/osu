@@ -30,12 +30,12 @@ namespace osu.Game.Tournament.Screens.Editors
         [BackgroundDependencyLoader]
         private void load()
         {
-            //ControlPanel.Add(new TourneyButton
-            //{
-            //    RelativeSizeAxes = Axes.X,
-            //    Text = "Add all countries",
-            //    Action = addAllCountries
-            //});
+            ControlPanel.Add(new TourneyButton
+            {
+                RelativeSizeAxes = Axes.X,
+                Text = "Add all countries",
+                Action = addAllCountries
+            });
         }
 
         protected override TeamRow CreateDrawable(TournamentTeam model) => new TeamRow(model);
@@ -56,6 +56,9 @@ namespace osu.Game.Tournament.Screens.Editors
             public TournamentTeam Model { get; }
 
             private readonly Container drawableContainer;
+
+            [Resolved(canBeNull: true)]
+            private TournamentSceneManager sceneManager { get; set; }
 
             [Resolved]
             private LadderInfo ladderInfo { get; set; }
@@ -95,35 +98,47 @@ namespace osu.Game.Tournament.Screens.Editors
                         AutoSizeAxes = Axes.Y,
                         Children = new Drawable[]
                         {
-                            //new SettingsTextBox
-                            //{
-                            //    LabelText = "Name",
-                            //    Width = 0.2f,
-                            //    Bindable = Model.FullName
-                            //},
                             new SettingsTextBox
                             {
                                 LabelText = "Name",
+                                Width = 0.2f,
+                                Bindable = Model.FullName
+                            },
+                            new SettingsTextBox
+                            {
+                                LabelText = "Acronym",
                                 Width = 0.2f,
                                 Bindable = Model.Acronym
                             },
                             new SettingsTextBox
                             {
-                                LabelText = "ID",
+                                LabelText = "Flag",
                                 Width = 0.2f,
                                 Bindable = Model.FlagName
                             },
-                            //new SettingsButton
-                            //{
-                            //    Width = 0.11f,
-                            //    Margin = new MarginPadding(10),
-                            //    Text = "Add player",
-                            //    Action = () => playerEditor.CreateNew()
-                            //},
+                            new SettingsTextBox
+                            {
+                                LabelText = "Seed",
+                                Width = 0.2f,
+                                Bindable = Model.Seed
+                            },
+                            new SettingsSlider<int>
+                            {
+                                LabelText = "Last Year Placement",
+                                Width = 0.33f,
+                                Bindable = Model.LastYearPlacing
+                            },
+                            new SettingsButton
+                            {
+                                Width = 0.11f,
+                                Margin = new MarginPadding(10),
+                                Text = "Add player",
+                                Action = () => playerEditor.CreateNew()
+                            },
                             new DangerousSettingsButton
                             {
                                 Width = 0.11f,
-                                Text = "Delete User",
+                                Text = "Delete Team",
                                 Margin = new MarginPadding(10),
                                 Action = () =>
                                 {
@@ -131,7 +146,17 @@ namespace osu.Game.Tournament.Screens.Editors
                                     ladderInfo.Teams.Remove(Model);
                                 },
                             },
-                            playerEditor
+                            playerEditor,
+                            new SettingsButton
+                            {
+                                Width = 0.2f,
+                                Margin = new MarginPadding(10),
+                                Text = "Edit seeding results",
+                                Action = () =>
+                                {
+                                    sceneManager?.SetScreen(new SeedingEditorScreen(team));
+                                }
+                            },
                         }
                     },
                 };
@@ -145,19 +170,6 @@ namespace osu.Game.Tournament.Screens.Editors
             private void updateDrawable(ValueChangedEvent<string> flag)
             {
                 drawableContainer.Child = new DrawableTeamFlag(Model);
-            }
-
-            private class DrawableTeamFlag : DrawableTournamentTeam
-            {
-                public DrawableTeamFlag(TournamentTeam team)
-                    : base(team)
-                {
-                    InternalChild = Flag;
-                    RelativeSizeAxes = Axes.Both;
-
-                    Flag.Anchor = Anchor.Centre;
-                    Flag.Origin = Anchor.Centre;
-                }
             }
 
             public class PlayerEditor : CompositeDrawable
@@ -177,8 +189,6 @@ namespace osu.Game.Tournament.Screens.Editors
                         RelativeSizeAxes = Axes.X,
                         AutoSizeAxes = Axes.Y,
                         Direction = FillDirection.Vertical,
-                        LayoutDuration = 200,
-                        LayoutEasing = Easing.OutQuint,
                         ChildrenEnumerable = team.Players.Select(p => new PlayerRow(team, p))
                     };
                 }
@@ -286,7 +296,7 @@ namespace osu.Game.Tournament.Screens.Editors
 
                     private void updatePanel()
                     {
-                        drawableContainer.Child = new UserPanel(user) { Width = 300 };
+                        drawableContainer.Child = new UserGridPanel(user) { Width = 300 };
                     }
                 }
             }

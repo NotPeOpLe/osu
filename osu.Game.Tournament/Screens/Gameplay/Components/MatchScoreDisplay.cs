@@ -11,63 +11,77 @@ using osu.Game.Graphics;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Tournament.IPC;
 using osu.Game.Tournament.Models;
-using osuTK.Graphics;
+using osuTK;
 
 namespace osu.Game.Tournament.Screens.Gameplay.Components
 {
     public class MatchScoreDisplay : CompositeDrawable
     {
-        private readonly Color4 red = new Color4(210, 21, 21, 255);
-        private readonly Color4 blue = new Color4(5, 140, 186, 255);
+        private const float bar_height = 18;
 
-        private const float bar_height = 20;
-
-        private readonly BindableFloat score1 = new BindableFloat();
-        private readonly BindableFloat score2 = new BindableFloat();
+        private readonly BindableInt score1 = new BindableInt();
+        private readonly BindableInt score2 = new BindableInt();
 
         private readonly MatchScoreCounter score1Text;
         private readonly MatchScoreCounter score2Text;
 
-        private readonly Circle score1Bar;
-        private readonly Circle score2Bar;
+        private readonly Drawable score1Bar;
+        private readonly Drawable score2Bar;
 
         public MatchScoreDisplay()
         {
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;
 
-            InternalChildren = new Drawable[]
+            InternalChildren = new[]
             {
-                score1Bar = new Circle
+                new Box
+                {
+                    Name = "top bar red (static)",
+                    RelativeSizeAxes = Axes.X,
+                    Height = bar_height / 4,
+                    Width = 0.5f,
+                    Colour = TournamentGame.COLOUR_RED,
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopRight
+                },
+                new Box
+                {
+                    Name = "top bar blue (static)",
+                    RelativeSizeAxes = Axes.X,
+                    Height = bar_height / 4,
+                    Width = 0.5f,
+                    Colour = TournamentGame.COLOUR_BLUE,
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopLeft
+                },
+                score1Bar = new Box
                 {
                     Name = "top bar red",
                     RelativeSizeAxes = Axes.X,
                     Height = bar_height,
                     Width = 0,
-                    Colour = red,
+                    Colour = TournamentGame.COLOUR_RED,
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopRight
                 },
                 score1Text = new MatchScoreCounter
                 {
-                    
-                    Colour = red,
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre
                 },
-                score2Bar = new Circle
+                score2Bar = new Box
                 {
                     Name = "top bar blue",
                     RelativeSizeAxes = Axes.X,
                     Height = bar_height,
                     Width = 0,
-                    Colour = blue,
+                    Colour = TournamentGame.COLOUR_BLUE,
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopLeft
                 },
                 score2Text = new MatchScoreCounter
                 {
-                    Colour = blue,
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre
                 },
@@ -78,10 +92,10 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
         private void load(LadderInfo ladder, MatchIPCInfo ipc)
         {
             score1.BindValueChanged(_ => updateScores());
-            score1.BindTo(ipc.Acc1);
+            score1.BindTo(ipc.Score1);
 
             score2.BindValueChanged(_ => updateScores());
-            score2.BindTo(ipc.Acc2);
+            score2.BindTo(ipc.Score2);
         }
 
         private void updateScores()
@@ -101,32 +115,32 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             var diff = Math.Max(score1.Value, score2.Value) - Math.Min(score1.Value, score2.Value);
 
             losingBar.ResizeWidthTo(0, 400, Easing.OutQuint);
-            winningBar.ResizeWidthTo(Math.Min(0.4f, diff * 10), 400, Easing.OutQuint);
-            //MathF.Pow(diff / 1500000f, 0.5f) / 2
+            winningBar.ResizeWidthTo(Math.Min(0.4f, MathF.Pow(diff / 1500000f, 0.5f) / 2), 400, Easing.OutQuint);
         }
 
-        protected override void Update()
+        protected override void UpdateAfterChildren()
         {
-            base.Update();
-
+            base.UpdateAfterChildren();
             score1Text.X = -Math.Max(5 + score1Text.DrawWidth / 2, score1Bar.DrawWidth);
             score2Text.X = Math.Max(5 + score2Text.DrawWidth / 2, score2Bar.DrawWidth);
         }
 
-        private class MatchScoreCounter : PercentageCounter
+        private class MatchScoreCounter : ScoreCounter
         {
             public MatchScoreCounter()
             {
-                Margin = new MarginPadding { Top = bar_height + 5, Horizontal = 10 };
+                Margin = new MarginPadding { Top = bar_height, Horizontal = 10 };
 
                 Winning = false;
+
+                DisplayedCountSpriteText.Spacing = new Vector2(-6);
             }
 
             public bool Winning
             {
                 set => DisplayedCountSpriteText.Font = value
-                    ? TournamentFont.GetFont(typeface: TournamentTypeface.Aquatico, weight: FontWeight.Regular, size: 60)
-                    : TournamentFont.GetFont(typeface: TournamentTypeface.Aquatico, weight: FontWeight.Light, size: 40);
+                    ? OsuFont.Torus.With(weight: FontWeight.Bold, size: 50, fixedWidth: true)
+                    : OsuFont.Torus.With(weight: FontWeight.Regular, size: 40, fixedWidth: true);
             }
         }
     }
