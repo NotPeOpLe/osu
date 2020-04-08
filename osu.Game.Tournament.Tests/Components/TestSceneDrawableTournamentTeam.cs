@@ -94,7 +94,7 @@ namespace osu.Game.Tournament.Tests.Components
             Cell(i++).AddRange(new Drawable[]
             {
                 new TournamentSpriteText { Text = "TeamWithPlayers" },
-                new DrawableTeamWithPlayers(team, TeamColour.Blue)
+                new DrawableTeamWithPlayers(team, false)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,

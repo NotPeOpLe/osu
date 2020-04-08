@@ -48,32 +48,37 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                 return;
             }
 
-            const float y_flag_offset = 292;
+            //const float y_flag_offset = 292;
 
-            const float y_offset = 460;
+            //const float y_offset = 460;
 
             mainContainer.Children = new Drawable[]
             {
                 new RoundDisplay(match.NewValue)
                 {
-                    Position = new Vector2(100, 100)
+                    Y = -100,
+                    Anchor = Anchor.BottomCentre,
+                    Origin = Anchor.BottomCentre,
                 },
-                new DrawableTeamFlag(match.NewValue.Team1.Value)
+                new DrawableTeamWithPlayers(match.NewValue.Team1.Value, true)
                 {
-                    Position = new Vector2(165, y_flag_offset),
+                    RelativeSizeAxes = Axes.Both,
+                    Width = 0.5f,
+                    Height = 0.6f,
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.CentreRight
+                    //Position = new Vector2(165, y_offset),
                 },
-                new DrawableTeamWithPlayers(match.NewValue.Team1.Value, TeamColour.Red)
+                new DrawableTeamWithPlayers(match.NewValue.Team2.Value, false)
                 {
-                    Position = new Vector2(165, y_offset),
+                    RelativeSizeAxes = Axes.Both,
+                    Width = 0.5f,
+                    Height = 0.6f,
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.CentreLeft
+                    //Position = new Vector2(740, y_offset),
                 },
-                new DrawableTeamFlag(match.NewValue.Team2.Value)
-                {
-                    Position = new Vector2(740, y_flag_offset),
-                },
-                new DrawableTeamWithPlayers(match.NewValue.Team2.Value, TeamColour.Blue)
-                {
-                    Position = new Vector2(740, y_offset),
-                },
+                
             };
         }
     }

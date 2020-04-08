@@ -14,53 +14,47 @@ namespace osu.Game.Tournament.Components
 {
     public class DrawableTeamWithPlayers : CompositeDrawable
     {
-        public DrawableTeamWithPlayers(TournamentTeam team, TeamColour colour)
+        public DrawableTeamWithPlayers(TournamentTeam team, bool left = false)
         {
-            AutoSizeAxes = Axes.Both;
-
+            FillFlowContainer players;
+            TeamColour colour = left ? TeamColour.Red : TeamColour.Blue;
             InternalChildren = new Drawable[]
             {
-                new FillFlowContainer
-                {
-                    AutoSizeAxes = Axes.Both,
-                    Direction = FillDirection.Vertical,
-                    Spacing = new Vector2(30),
-                    Children = new Drawable[]
+                    new DrawableTeamTitleWithHeader(team, colour)
                     {
-                        new DrawableTeamTitleWithHeader(team, colour),
-                        new FillFlowContainer
-                        {
-                            AutoSizeAxes = Axes.Both,
-                            Direction = FillDirection.Horizontal,
-                            Padding = new MarginPadding { Left = 10 },
-                            Spacing = new Vector2(30),
-                            Children = new Drawable[]
-                            {
-                                new FillFlowContainer
-                                {
-                                    Direction = FillDirection.Vertical,
-                                    AutoSizeAxes = Axes.Both,
-                                    ChildrenEnumerable = team?.Players.Select(createPlayerText).Take(5) ?? Enumerable.Empty<Drawable>()
-                                },
-                                new FillFlowContainer
-                                {
-                                    Direction = FillDirection.Vertical,
-                                    AutoSizeAxes = Axes.Both,
-                                    ChildrenEnumerable = team?.Players.Select(createPlayerText).Skip(5) ?? Enumerable.Empty<Drawable>()
-                                },
-                            }
-                        },
-                    }
-                },
+                        Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                        Origin = Anchor.Centre,
+                        RelativePositionAxes = Axes.Both,
+                        X = (left ? -1 : 1) * 0.485f,
+                        Y = 0.23f
+                    },
+                    players = new FillFlowContainer
+                    {
+                        Direction = FillDirection.Vertical,
+                        AutoSizeAxes = Axes.Both,
+                        Spacing = new Vector2(0, 5),
+                        Padding = new MarginPadding(20),
+                        Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                        Origin = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                        RelativePositionAxes = Axes.Both,
+                        X = (left ? -1 : 1) * 0.66f,
+                    },
             };
 
-            TournamentSpriteText createPlayerText(User p) =>
-                new TournamentSpriteText
+            if (team != null)
+            {
+                foreach (var p in team.Players)
                 {
-                    Text = p.Username,
-                    Font = OsuFont.Torus.With(size: 24, weight: FontWeight.SemiBold),
-                    Colour = Color4.White,
-                };
-        }
+                    players.Add(new TournamentSpriteText
+                    {
+                        Text = p.Username,
+                        Font = OsuFont.GetFont(size: 24),
+                        Colour = Color4.White,
+                        Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                        Origin = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                    });
+                }
+            }
+        }    
     }
 }

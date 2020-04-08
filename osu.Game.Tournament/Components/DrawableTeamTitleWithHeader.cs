@@ -21,8 +21,22 @@ namespace osu.Game.Tournament.Components
                 Spacing = new Vector2(0, 10),
                 Children = new Drawable[]
                 {
-                    new DrawableTeamHeader(colour),
-                    new DrawableTeamTitle(team),
+                    new DrawableTeamFlag(team)
+                    {
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.Centre,
+                    },
+                    new DrawableTeamHeader(colour)
+                    {
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.Centre,
+                        Margin = new MarginPadding { Top = 70 }
+                    },
+                    new DrawableTeamTitle(team)
+                    {
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.Centre
+                    },
                 }
             };
         }

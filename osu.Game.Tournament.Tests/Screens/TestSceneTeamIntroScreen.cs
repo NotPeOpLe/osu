@@ -18,8 +18,8 @@ namespace osu.Game.Tournament.Tests.Screens
         private void load()
         {
             var match = new TournamentMatch();
-            match.Team1.Value = Ladder.Teams.FirstOrDefault(t => t.FullName.Value == "Peppy");
-            match.Team2.Value = Ladder.Teams.FirstOrDefault(t => t.FullName.Value == "BanchoBot");
+            match.Team1.Value = Ladder.Teams.FirstOrDefault(t => t.Acronym.Value == "USA");
+            match.Team2.Value = Ladder.Teams.FirstOrDefault(t => t.Acronym.Value == "JPN");
             match.Round.Value = Ladder.Rounds.FirstOrDefault(g => g.Name.Value == "Finals");
             ladder.CurrentMatch.Value = match;
 

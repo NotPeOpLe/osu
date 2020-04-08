@@ -77,12 +77,18 @@ namespace osu.Game.Tournament.Screens.TeamWin
             redWinVideo.Alpha = match.WinnerColour == TeamColour.Red ? 1 : 0;
             blueWinVideo.Alpha = match.WinnerColour == TeamColour.Blue ? 1 : 0;
 
+
             if (firstDisplay)
             {
                 if (match.WinnerColour == TeamColour.Red)
+                {
                     redWinVideo.Reset();
+                }
                 else
+                {
                     blueWinVideo.Reset();
+                }
+                    
                 firstDisplay = false;
             }
 
@@ -115,7 +121,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
                             Font = OsuFont.Torus.With(size: 100, weight: FontWeight.Bold),
                             Margin = new MarginPadding { Bottom = 50 },
                         },
-                        new DrawableTeamWithPlayers(match.Winner, match.WinnerColour)
+                        new DrawablePlayers(match.Winner, match.WinnerColour)
                     }
                 },
             };
