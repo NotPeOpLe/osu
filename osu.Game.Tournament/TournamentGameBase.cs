@@ -116,16 +116,18 @@ namespace osu.Game.Tournament
                             },
                             Action = SaveChanges,
                         },
-                    }
+                    },
+
                 },
                 new TourneyButton
                 {
-                    Text = "清理記憶體",
+                    Text = "Clean memory",
                     Width = 140,
                     Height = 50,
                     Depth = float.MinValue,
-                    Anchor = Anchor.CentreRight,
-                    Origin = Anchor.CentreRight,
+                    Anchor = Anchor.BottomRight,
+                    Origin = Anchor.BottomRight,
+                    Y = -50,
                     Padding = new MarginPadding(10),
                     Action = () => { GC.Collect(); },
                 },
