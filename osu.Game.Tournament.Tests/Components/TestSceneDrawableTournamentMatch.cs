@@ -25,8 +25,8 @@ namespace osu.Game.Tournament.Tests.Components
             Container<DrawableTournamentMatch> level2;
 
             var match1 = new TournamentMatch(
-                new TournamentTeam { FlagName = { Value = "654296" }, FullName = { Value = "Bitcoin" }, },
-                new TournamentTeam { FlagName = { Value = "147515" }, FullName = { Value = "Rucker" }, Acronym = { Value = "147515" } })
+                new TournamentTeam { FlagName = { Value = "US" }, FullName = { Value = "Rubber conquest" }, },
+                new TournamentTeam { FlagName = { Value = "AU" }, FullName = { Value = "0123456789ABCDEF" }, })
             {
                 Team1Score = { Value = 4 },
                 Team2Score = { Value = 1 },

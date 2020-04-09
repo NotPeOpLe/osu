@@ -129,7 +129,7 @@ namespace osu.Game.Tournament
                     Origin = Anchor.BottomRight,
                     Y = -50,
                     Padding = new MarginPadding(10),
-                    Action = () => { GC.Collect(); },
+                    Action = () => { Host.Collect(); },
                 },
                 heightWarning = new Container
                 {

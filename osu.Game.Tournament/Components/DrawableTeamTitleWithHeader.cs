@@ -23,6 +23,8 @@ namespace osu.Game.Tournament.Components
                 {
                     new DrawableTeamFlag(team)
                     {
+                        Width = 70,
+                        Height = 47,
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
                     },
