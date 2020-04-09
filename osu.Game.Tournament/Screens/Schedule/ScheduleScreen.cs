@@ -220,7 +220,7 @@ namespace osu.Game.Tournament.Screens.Schedule
 
                 Scale = new Vector2(0.8f);
 
-                CurrentMatchSelectionBox.Scale = new Vector2(1.02f, 1.15f);
+                CurrentMatchSelectionBox.Scale = new Vector2(1.02f, 1.10f);
 
                 bool conditional = match is ConditionalTournamentMatch;
 
@@ -245,7 +245,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                         Colour = OsuColour.Gray(0.7f),
                         Alpha = conditional ? 0.6f : 1,
                         Margin = new MarginPadding { Horizontal = 10, Vertical = 5 },
-                        Text = match.Date.Value.ToUniversalTime().ToString("HH:mm UTC") + (conditional ? " (conditional)" : "")
+                        Text = match.Date.Value.ToLocalTime().ToString("HH:mm UTCz") + (conditional ? " (conditional)" : "")
                     });
                 }
             }
