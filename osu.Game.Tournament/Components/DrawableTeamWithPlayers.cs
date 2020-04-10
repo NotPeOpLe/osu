@@ -25,7 +25,7 @@ namespace osu.Game.Tournament.Components
                         Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
                         Origin = Anchor.Centre,
                         RelativePositionAxes = Axes.Both,
-                        X = (left ? -1 : 1) * 0.485f,
+                        X = (left ? -1 : 1) * 0.48f,
                         Y = 0.23f
                     },
                     players = new FillFlowContainer

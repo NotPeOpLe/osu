@@ -8,7 +8,7 @@ using osu.Game.Tournament.Models;
 
 namespace osu.Game.Tournament.Screens.Gameplay.Components
 {
-    public class MatchRoundDisplay : TournamentSpriteTextWithBackground
+    public class MatchRoundDisplay : TournamentSpriteText
     {
         private readonly Bindable<TournamentMatch> currentMatch = new Bindable<TournamentMatch>();
 
@@ -20,6 +20,6 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
         }
 
         private void matchChanged(ValueChangedEvent<TournamentMatch> match) =>
-            Text.Text = match.NewValue.Round.Value?.Name.Value ?? "Unknown Round";
+            Text = match.NewValue.Round.Value?.Name.Value ?? "Unknown Round";
     }
 }

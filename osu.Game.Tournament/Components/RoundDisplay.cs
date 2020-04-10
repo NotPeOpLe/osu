@@ -24,11 +24,7 @@ namespace osu.Game.Tournament.Components
                     Direction = FillDirection.Vertical,
                     Children = new Drawable[]
                     {
-                        new DrawableTournamentHeaderText(false)
-                        {
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.TopCentre,
-                        },
+                       
                         new TournamentSpriteText
                         {
                             Anchor = Anchor.TopCentre,

@@ -4,6 +4,7 @@
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
+using osu.Game.Graphics;
 using osu.Game.Tournament.Components;
 using osu.Game.Tournament.Models;
 using osuTK;
@@ -26,7 +27,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             var anchor = flip ? Anchor.TopLeft : Anchor.TopRight;
 
             Flag.RelativeSizeAxes = Axes.None;
-            Flag.Size = new Vector2(60, 40);
+            Flag.Size = new Vector2(60, 60);
             Flag.Origin = anchor;
             Flag.Anchor = anchor;
 
@@ -74,8 +75,10 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                                             }
                                         }
                                     },
-                                    new TournamentSpriteTextWithBackground(team?.FullName.Value ?? "???")
+                                    new TournamentSpriteText()
                                     {
+                                        Text = team?.FullName.Value ?? "???",
+                                        Font = OsuFont.Torus.With(weight: FontWeight.SemiBold, size: 50),
                                         Scale = new Vector2(0.5f),
                                         Origin = anchor,
                                         Anchor = anchor,
