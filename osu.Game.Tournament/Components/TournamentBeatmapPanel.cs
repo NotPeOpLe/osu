@@ -127,10 +127,11 @@ namespace osu.Game.Tournament.Components
                 AddInternal(new Container
                 {
                     RelativeSizeAxes = Axes.Y,
-                    Width = 60,
+                    Width = HEIGHT,
+                    Height = HEIGHT,
                     Anchor = Anchor.CentreRight,
                     Origin = Anchor.CentreRight,
-                    Margin = new MarginPadding(10),
+                    //Margin = new MarginPadding(10),
                     Child = new Sprite
                     {
                         FillMode = FillMode.Fit,
