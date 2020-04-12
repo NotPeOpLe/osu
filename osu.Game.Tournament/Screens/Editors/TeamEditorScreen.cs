@@ -169,7 +169,11 @@ namespace osu.Game.Tournament.Screens.Editors
 
             private void updateDrawable(ValueChangedEvent<string> flag)
             {
-                drawableContainer.Child = new DrawableTeamFlag(Model);
+                drawableContainer.Child = new DrawableTeamFlag(Model)
+                {
+                    Width = 128,
+                    Height = 128
+                };
             }
 
             public class PlayerEditor : CompositeDrawable

@@ -241,8 +241,6 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                         {
                             new TeamDisplay(team) { Margin = new MarginPadding { Bottom = 30 } },
                             new RowDisplay("Average Rank:", $"#{team.AverageRank:#,0}"),
-                            new RowDisplay("Seed:", team.Seed.Value),
-                            new RowDisplay("Last year's placing:", team.LastYearPlacing.Value > 0 ? $"#{team.LastYearPlacing:#,0}" : "0"),
                             new Container { Margin = new MarginPadding { Bottom = 30 } },
                         }
                     },
@@ -287,7 +285,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                     AutoSizeAxes = Axes.Both;
 
                     Flag.RelativeSizeAxes = Axes.None;
-                    Flag.Size = new Vector2(300, 200);
+                    Flag.Size = new Vector2(300, 300);
                     Flag.Scale = new Vector2(0.3f);
 
                     InternalChild = new FillFlowContainer
