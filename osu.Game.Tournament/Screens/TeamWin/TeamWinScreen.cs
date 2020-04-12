@@ -108,7 +108,7 @@ namespace osu.Game.Tournament.Screens.TeamWin
                     Direction = FillDirection.Vertical,
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    X = 260,
+                    X = 250,
                     Children = new Drawable[]
                     {
                         new RoundDisplay(match)
