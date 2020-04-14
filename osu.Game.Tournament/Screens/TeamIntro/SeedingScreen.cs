@@ -209,7 +209,8 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                                         {
                                             Anchor = Anchor.Centre,
                                             Origin = Anchor.Centre,
-                                            Text = seeding.ToString("#,0"),
+                                            Text = "#" + seeding.ToString("#,0"),
+                                            Coulor = Color4.Black,
                                         },
                                     }
                                 },
