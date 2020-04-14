@@ -15,6 +15,7 @@ using osu.Game.Tournament.Components;
 using osu.Game.Tournament.Models;
 using osu.Game.Tournament.Screens.Ladder.Components;
 using osuTK;
+using osuTK.Graphics;
 
 namespace osu.Game.Tournament.Screens.TeamIntro
 {
@@ -195,7 +196,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                                 },
                                 new Container
                                 {
-                                    Size = new Vector2(50, 16),
+                                    Size = new Vector2(50, 32),
                                     CornerRadius = 10,
                                     Masking = true,
                                     Children = new Drawable[]
@@ -210,7 +211,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                                             Anchor = Anchor.Centre,
                                             Origin = Anchor.Centre,
                                             Text = "#" + seeding.ToString("#,0"),
-                                            Coulor = Color4.Black,
+                                            Colour = Color4.Black,
                                         },
                                     }
                                 },
