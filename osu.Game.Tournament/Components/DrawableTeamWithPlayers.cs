@@ -20,24 +20,24 @@ namespace osu.Game.Tournament.Components
             TeamColour colour = left ? TeamColour.Red : TeamColour.Blue;
             InternalChildren = new Drawable[]
             {
-                    new DrawableTeamTitleWithHeader(team, colour, left)
+                    new DrawableTeamTitleWithHeader(team, colour)
                     {
                         Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
-                        Origin = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                        Origin = Anchor.Centre,
                         RelativePositionAxes = Axes.Both,
-                        X = (left ? -1 : 1) * 0.1f,
+                        X = (left ? -1 : 1) * 0.48f,
                         Y = 0.23f
                     },
                     players = new FillFlowContainer
                     {
                         Direction = FillDirection.Vertical,
                         AutoSizeAxes = Axes.Both,
-                        //Spacing = new Vector2(0, 5),
-                        //Padding = new MarginPadding(20),
+                        Spacing = new Vector2(0, 5),
+                        Padding = new MarginPadding(20),
                         Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
                         Origin = left ? Anchor.CentreRight : Anchor.CentreLeft,
                         RelativePositionAxes = Axes.Both,
-                        X = (left ? -1 : 1) * 0.1f,
+                        X = (left ? -1 : 1) * 0.66f,
                     },
             };
 
@@ -49,7 +49,7 @@ namespace osu.Game.Tournament.Components
                     {
                         Text = p.Username,
                         Font = OsuFont.GetFont(size: 24),
-                        Colour = TournamentGame.TEXT_COLOUR,
+                        Colour = Color4.White,
                         Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
                         Origin = left ? Anchor.CentreRight : Anchor.CentreLeft,
                     });

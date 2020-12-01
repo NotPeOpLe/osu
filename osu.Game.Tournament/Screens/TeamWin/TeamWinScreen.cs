@@ -94,37 +94,34 @@ namespace osu.Game.Tournament.Screens.TeamWin
 
             mainContainer.Children = new Drawable[]
             {
-                /*new DrawableTeamFlag(match.Winner)
+                new DrawableTeamFlag(match.Winner)
                 {
                     Size = new Vector2(300, 300),
                     Scale = new Vector2(0.5f),
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
                     Position = new Vector2(-300, 10),
-                },*/
+                },
                 new FillFlowContainer
                 {
                     AutoSizeAxes = Axes.Both,
                     Direction = FillDirection.Vertical,
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    //X = 250,
+                    X = 250,
                     Children = new Drawable[]
                     {
-                        new RoundDisplay(match),
+                        new RoundDisplay(match)
+                        {
+                            Margin = new MarginPadding { Bottom = 30 },
+                        },
                         new TournamentSpriteText
                         {
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.Centre,
                             Text = "WINNER",
                             Font = OsuFont.Torus.With(size: 100, weight: FontWeight.Bold),
-                            Margin = new MarginPadding { Bottom = 150 }
+                            Margin = new MarginPadding { Bottom = 50 },
                         },
                         new DrawablePlayers(match.Winner, match.WinnerColour)
-                        {
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.Centre,
-                        }
                     }
                 },
             };

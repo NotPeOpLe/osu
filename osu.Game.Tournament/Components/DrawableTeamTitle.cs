@@ -29,7 +29,6 @@ namespace osu.Game.Tournament.Components
 
             (acronym = team.Acronym.GetBoundCopy()).BindValueChanged(acronym => Text = team?.FullName.Value ?? string.Empty, true);
             Font = OsuFont.Torus.With(weight: FontWeight.SemiBold, size: 50);
-            Colour = TournamentGame.TEXT_COLOUR;
         }
     }
 }

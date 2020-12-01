@@ -76,7 +76,6 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                         {
                             Anchor = Anchor.TopCentre,
                             Origin = Anchor.TopCentre,
-                            Margin = new MarginPadding{ Bottom = 20 }
                         },
                         new MatchRoundDisplay
                         {
@@ -84,7 +83,6 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                             Origin = Anchor.TopCentre,
                             Scale = new Vector2(0.4f),
                             Font = OsuFont.Torus.With(weight: FontWeight.SemiBold, size: 50),
-                            Colour = TournamentGame.TEXT_COLOUR
                         },
                     }
                 },

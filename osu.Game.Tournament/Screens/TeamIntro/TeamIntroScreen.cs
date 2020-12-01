@@ -56,7 +56,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
             {
                 new RoundDisplay(match.NewValue)
                 {
-                    Y = -120,
+                    Y = -100,
                     Anchor = Anchor.BottomCentre,
                     Origin = Anchor.BottomCentre,
                 },

@@ -68,8 +68,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                 score1Text = new MatchScoreCounter
                 {
                     Anchor = Anchor.TopCentre,
-                    Origin = Anchor.TopCentre,
-                    Colour = TournamentGame.TEXT_COLOUR
+                    Origin = Anchor.TopCentre
                 },
                 score2Bar = new Box
                 {
@@ -84,8 +83,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                 score2Text = new MatchScoreCounter
                 {
                     Anchor = Anchor.TopCentre,
-                    Origin = Anchor.TopCentre,
-                    Colour = TournamentGame.TEXT_COLOUR
+                    Origin = Anchor.TopCentre
                 },
             };
         }
