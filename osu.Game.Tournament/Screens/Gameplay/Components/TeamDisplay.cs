@@ -82,6 +82,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                                         Scale = new Vector2(0.5f),
                                         Origin = anchor,
                                         Anchor = anchor,
+                                        Colour = TournamentGame.TEXT_COLOUR
                                     },
                                 }
                             },

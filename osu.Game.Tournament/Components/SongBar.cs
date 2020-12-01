@@ -217,6 +217,7 @@ namespace osu.Game.Tournament.Components
                                                 X = -10,
                                                 Anchor = Anchor.CentreRight,
                                                 Origin = Anchor.CentreRight,
+                                                Colour = TournamentGame.TEXT_COLOUR
                                             },
                                         }
                                     },
@@ -246,6 +247,7 @@ namespace osu.Game.Tournament.Components
                 static void cp(SpriteText s, bool bold)
                 {
                     s.Font = OsuFont.Torus.With(weight: bold ? FontWeight.Bold : FontWeight.Regular, size: 15);
+                    s.Colour = TournamentGame.TEXT_COLOUR;
                 }
 
                 for (var i = 0; i < tuples.Length; i++)

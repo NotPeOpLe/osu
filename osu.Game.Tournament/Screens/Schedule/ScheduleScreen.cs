@@ -71,7 +71,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                                                 {
                                                     new Box
                                                     {
-                                                        Colour = Color4.White,
+                                                        Colour = TournamentGame.TEXT_COLOUR,
                                                         Size = new Vector2(50, 10),
                                                     },
                                                     new TournamentSpriteTextWithBackground("Schedule")
@@ -133,7 +133,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                             Direction = FillDirection.Horizontal,
                             Children = new Drawable[]
                             {
-                                /*new ScheduleContainer("recent matches")
+                                new ScheduleContainer("recent matches")
                                 {
                                     RelativeSizeAxes = Axes.Both,
                                     Width = 0.4f,
@@ -143,7 +143,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                                                                .OrderByDescending(p => p.Date.Value)
                                                                .Take(8)
                                                                .Select(p => new ScheduleMatch(p))
-                                },*/
+                                },
                                 new ScheduleContainer("upcoming matches")
                                 {
                                     RelativeSizeAxes = Axes.Both,
@@ -177,13 +177,14 @@ namespace osu.Game.Tournament.Screens.Schedule
                                         Origin = Anchor.CentreLeft,
                                         Scale = new Vector2(0.5f)
                                     },
-                                    /*new TournamentSpriteText
+                                    new TournamentSpriteText
                                     {
                                         Anchor = Anchor.CentreLeft,
                                         Origin = Anchor.CentreLeft,
                                         Text = match.NewValue.Team1.Value?.FullName + " vs " + match.NewValue.Team2.Value?.FullName,
-                                        Font = OsuFont.Torus.With(size: 24, weight: FontWeight.SemiBold)
-                                    },*/
+                                        Font = OsuFont.Torus.With(size: 24, weight: FontWeight.SemiBold),
+                                        Colour = TournamentGame.TEXT_COLOUR
+                                    },
                                     new FillFlowContainer
                                     {
                                         AutoSizeAxes = Axes.Both,
@@ -195,11 +196,13 @@ namespace osu.Game.Tournament.Screens.Schedule
                                             new TournamentSpriteText
                                             {
                                                 Text = "Starting ",
-                                                Font = OsuFont.Torus.With(size: 24, weight: FontWeight.Regular)
+                                                Font = OsuFont.Torus.With(size: 24, weight: FontWeight.Regular),
+                                                Colour = TournamentGame.TEXT_COLOUR
                                             },
                                             new DrawableDate(match.NewValue.Date.Value)
                                             {
-                                                Font = OsuFont.Torus.With(size: 24, weight: FontWeight.Regular)
+                                                Font = OsuFont.Torus.With(size: 24, weight: FontWeight.Regular),
+                                                Colour = TournamentGame.TEXT_COLOUR
                                             }
                                         }
                                     },

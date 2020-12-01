@@ -10,7 +10,7 @@ namespace osu.Game.Tournament.Components
 {
     public class DrawableTeamTitleWithHeader : CompositeDrawable
     {
-        public DrawableTeamTitleWithHeader(TournamentTeam team, TeamColour colour)
+        public DrawableTeamTitleWithHeader(TournamentTeam team, TeamColour colour, bool left = false)
         {
             AutoSizeAxes = Axes.Both;
 
@@ -21,23 +21,23 @@ namespace osu.Game.Tournament.Components
                 Spacing = new Vector2(0, 10),
                 Children = new Drawable[]
                 {
-                    new DrawableTeamFlag(team)
+                    /*new DrawableTeamFlag(team)
                     {
                         Width = 128,
                         Height = 128,
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
-                    },
+                    },*/
                     new DrawableTeamHeader(colour)
                     {
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
+                        Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                        Origin = left ? Anchor.CentreRight : Anchor.CentreLeft,
                         Margin = new MarginPadding { Top = 70 }
                     },
                     new DrawableTeamTitle(team)
                     {
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre
+                        Anchor = left ? Anchor.CentreRight : Anchor.CentreLeft,
+                        Origin = left ? Anchor.CentreRight : Anchor.CentreLeft,
                     },
                 }
             };

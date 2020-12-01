@@ -14,9 +14,10 @@ namespace osu.Game.Tournament.Components
 {
     public class DrawablePlayers : CompositeDrawable
     {
-        public DrawablePlayers(TournamentTeam team, TeamColour colour)
+        public DrawablePlayers(TournamentTeam team, TeamColour colour, bool centre = false)
         {
             AutoSizeAxes = Axes.Both;
+            Anchor = Anchor.TopCentre;
 
             InternalChildren = new Drawable[]
             {
@@ -31,6 +32,8 @@ namespace osu.Game.Tournament.Components
                         new FillFlowContainer
                         {
                             AutoSizeAxes = Axes.Both,
+                            //Anchor = Anchor.TopCentre,
+                            //Origin = Anchor.Centre,
                             Direction = FillDirection.Horizontal,
                             Padding = new MarginPadding { Left = 10 },
                             Spacing = new Vector2(30),
@@ -40,14 +43,8 @@ namespace osu.Game.Tournament.Components
                                 {
                                     Direction = FillDirection.Vertical,
                                     AutoSizeAxes = Axes.Both,
-                                    ChildrenEnumerable = team?.Players.Select(createPlayerText).Take(5) ?? Enumerable.Empty<Drawable>()
-                                },
-                                new FillFlowContainer
-                                {
-                                    Direction = FillDirection.Vertical,
-                                    AutoSizeAxes = Axes.Both,
-                                    ChildrenEnumerable = team?.Players.Select(createPlayerText).Skip(5) ?? Enumerable.Empty<Drawable>()
-                                },
+                                    ChildrenEnumerable = team?.Players.Select(createPlayerText) ?? Enumerable.Empty<Drawable>()
+                                }
                             }
                         },
                     }
