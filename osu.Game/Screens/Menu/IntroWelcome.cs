@@ -39,8 +39,6 @@ namespace osu.Game.Screens.Menu
                 welcome = audio.Samples.Get(@"Intro/Welcome/welcome");
 
             pianoReverb = audio.Samples.Get(@"Intro/Welcome/welcome_piano");
-
-            Track.Looping = true;
         }
 
         protected override void LogoArriving(OsuLogo logo, bool resuming)
@@ -49,6 +47,8 @@ namespace osu.Game.Screens.Menu
 
             if (!resuming)
             {
+                Track.Looping = true;
+
                 LoadComponentAsync(new WelcomeIntroSequence
                 {
                     RelativeSizeAxes = Axes.Both
@@ -113,8 +113,7 @@ namespace osu.Game.Screens.Menu
                                 RelativeSizeAxes = Axes.Both,
                                 Anchor = Anchor.Centre,
                                 Origin = Anchor.Centre,
-                                Alpha = 0.5f,
-                                AccentColour = Color4.DarkBlue,
+                                Colour = Color4.DarkBlue,
                                 Size = new Vector2(0.96f)
                             },
                             new Circle

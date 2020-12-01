@@ -4,7 +4,6 @@
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Audio.Sample;
-using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -32,10 +31,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using osu.Framework.Audio.Track;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Bindings;
+using osu.Game.Collections;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Scoring;
+using System.Diagnostics;
 
 namespace osu.Game.Screens.Select
 {
@@ -99,11 +101,11 @@ namespace osu.Game.Screens.Select
 
         private readonly Bindable<RulesetInfo> decoupledRuleset = new Bindable<RulesetInfo>();
 
-        [Resolved(canBeNull: true)]
+        [Resolved]
         private MusicController music { get; set; }
 
         [BackgroundDependencyLoader(true)]
-        private void load(AudioManager audio, DialogOverlay dialog, OsuColour colours, SkinManager skins, ScoreManager scores)
+        private void load(AudioManager audio, DialogOverlay dialog, OsuColour colours, SkinManager skins, ScoreManager scores, CollectionManager collections, ManageCollectionsDialog manageCollectionsDialog)
         {
             // initial value transfer is required for FilterControl (it uses our re-cached bindables in its async load for the initial filter).
             transferRulesetValue();
@@ -274,9 +276,10 @@ namespace osu.Game.Screens.Select
                 Footer.AddButton(new FooterButtonRandom { Action = triggerRandom });
                 Footer.AddButton(new FooterButtonOptions(), BeatmapOptions);
 
-                BeatmapOptions.AddButton(@"Remove", @"from unplayed", FontAwesome.Regular.TimesCircle, colours.Purple, null, Key.Number1);
-                BeatmapOptions.AddButton(@"Clear", @"local scores", FontAwesome.Solid.Eraser, colours.Purple, () => clearScores(Beatmap.Value.BeatmapInfo), Key.Number2);
-                BeatmapOptions.AddButton(@"Delete", @"all difficulties", FontAwesome.Solid.Trash, colours.Pink, () => delete(Beatmap.Value.BeatmapSetInfo), Key.Number3);
+                BeatmapOptions.AddButton(@"Manage", @"collections", FontAwesome.Solid.Book, colours.Green, () => manageCollectionsDialog?.Show());
+                BeatmapOptions.AddButton(@"Delete", @"all difficulties", FontAwesome.Solid.Trash, colours.Pink, () => delete(Beatmap.Value.BeatmapSetInfo));
+                BeatmapOptions.AddButton(@"Remove", @"from unplayed", FontAwesome.Regular.TimesCircle, colours.Purple, null);
+                BeatmapOptions.AddButton(@"Clear", @"local scores", FontAwesome.Solid.Eraser, colours.Purple, () => clearScores(Beatmap.Value.BeatmapInfo));
             }
 
             dialogOverlay = dialog;
@@ -294,7 +297,12 @@ namespace osu.Game.Screens.Select
                     {
                         dialogOverlay.Push(new ImportFromStablePopup(() =>
                         {
-                            Task.Run(beatmaps.ImportFromStableAsync).ContinueWith(_ => scores.ImportFromStableAsync(), TaskContinuationOptions.OnlyOnRanToCompletion);
+                            Task.Run(beatmaps.ImportFromStableAsync)
+                                .ContinueWith(_ =>
+                                {
+                                    Task.Run(scores.ImportFromStableAsync);
+                                    Task.Run(collections.ImportFromStableAsync);
+                                }, TaskContinuationOptions.OnlyOnRanToCompletion);
                             Task.Run(skins.ImportFromStableAsync);
                         }));
                     }
@@ -368,7 +376,7 @@ namespace osu.Game.Screens.Select
             if (selectionChangedDebounce?.Completed == false)
             {
                 selectionChangedDebounce.RunTask();
-                selectionChangedDebounce.Cancel(); // cancel the already scheduled task.
+                selectionChangedDebounce?.Cancel(); // cancel the already scheduled task.
                 selectionChangedDebounce = null;
             }
 
@@ -457,17 +465,28 @@ namespace osu.Game.Screens.Select
 
             void run()
             {
+                // clear pending task immediately to track any potential nested debounce operation.
+                selectionChangedDebounce = null;
+
                 Logger.Log($"updating selection with beatmap:{beatmap?.ID.ToString() ?? "null"} ruleset:{ruleset?.ID.ToString() ?? "null"}");
 
                 if (transferRulesetValue())
                 {
                     Mods.Value = Array.Empty<Mod>();
 
-                    // transferRulesetValue() may trigger a refilter. If the current selection does not match the new ruleset, we want to switch away from it.
+                    // transferRulesetValue() may trigger a re-filter. If the current selection does not match the new ruleset, we want to switch away from it.
                     // The default logic on WorkingBeatmap change is to switch to a matching ruleset (see workingBeatmapChanged()), but we don't want that here.
                     // We perform an early selection attempt and clear out the beatmap selection to avoid a second ruleset change (revert).
                     if (beatmap != null && !Carousel.SelectBeatmap(beatmap, false))
                         beatmap = null;
+                }
+
+                if (selectionChangedDebounce != null)
+                {
+                    // a new nested operation was started; switch to it for further selection.
+                    // this avoids having two separate debounces trigger from the same source.
+                    selectionChangedDebounce.RunTask();
+                    return;
                 }
 
                 // We may be arriving here due to another component changing the bindable Beatmap.
@@ -511,6 +530,8 @@ namespace osu.Game.Screens.Select
             FilterControl.Activate();
 
             ModSelect.SelectedMods.BindTo(selectedMods);
+
+            beginLooping();
         }
 
         private const double logo_transition = 250;
@@ -561,15 +582,16 @@ namespace osu.Game.Screens.Select
 
             BeatmapDetails.Refresh();
 
-            Beatmap.Value.Track.Looping = true;
-            music?.ResetTrackAdjustments();
+            beginLooping();
+            music.ResetTrackAdjustments();
 
             if (Beatmap != null && !Beatmap.Value.BeatmapSetInfo.DeletePending)
             {
                 updateComponentFromBeatmap(Beatmap.Value);
 
                 // restart playback on returning to song select, regardless.
-                music?.Play();
+                // not sure this should be a permanent thing (we may want to leave a user pause paused even on returning)
+                music.Play(requestedByUser: true);
             }
 
             this.FadeIn(250);
@@ -586,8 +608,7 @@ namespace osu.Game.Screens.Select
 
             BeatmapOptions.Hide();
 
-            if (Beatmap.Value.Track != null)
-                Beatmap.Value.Track.Looping = false;
+            endLooping();
 
             this.ScaleTo(1.1f, 250, Easing.InSine);
 
@@ -608,11 +629,35 @@ namespace osu.Game.Screens.Select
 
             FilterControl.Deactivate();
 
-            if (Beatmap.Value.Track != null)
-                Beatmap.Value.Track.Looping = false;
+            endLooping();
 
             return false;
         }
+
+        private bool isHandlingLooping;
+
+        private void beginLooping()
+        {
+            Debug.Assert(!isHandlingLooping);
+
+            music.CurrentTrack.Looping = isHandlingLooping = true;
+
+            music.TrackChanged += ensureTrackLooping;
+        }
+
+        private void endLooping()
+        {
+            // may be called multiple times during screen exit process.
+            if (!isHandlingLooping)
+                return;
+
+            music.CurrentTrack.Looping = isHandlingLooping = false;
+
+            music.TrackChanged -= ensureTrackLooping;
+        }
+
+        private void ensureTrackLooping(WorkingBeatmap beatmap, TrackChangeDirection changeDirection)
+            => music.CurrentTrack.Looping = true;
 
         public override bool OnBackButton()
         {
@@ -630,6 +675,9 @@ namespace osu.Game.Screens.Select
             base.Dispose(isDisposing);
 
             decoupledRuleset.UnbindAll();
+
+            if (music != null)
+                music.TrackChanged -= ensureTrackLooping;
         }
 
         /// <summary>
@@ -649,12 +697,9 @@ namespace osu.Game.Screens.Select
             beatmapInfoWedge.Beatmap = beatmap;
 
             BeatmapDetails.Beatmap = beatmap;
-
-            if (beatmap.Track != null)
-                beatmap.Track.Looping = true;
         }
 
-        private readonly WeakReference<Track> lastTrack = new WeakReference<Track>(null);
+        private readonly WeakReference<ITrack> lastTrack = new WeakReference<ITrack>(null);
 
         /// <summary>
         /// Ensures some music is playing for the current track.
@@ -662,14 +707,14 @@ namespace osu.Game.Screens.Select
         /// </summary>
         private void ensurePlayingSelected()
         {
-            Track track = Beatmap.Value.Track;
+            ITrack track = music.CurrentTrack;
 
             bool isNewTrack = !lastTrack.TryGetTarget(out var last) || last != track;
 
             track.RestartPoint = Beatmap.Value.Metadata.PreviewTime;
 
-            if (!track.IsRunning && (music?.IsUserPaused != true || isNewTrack))
-                music?.Play(true);
+            if (!track.IsRunning && (music.UserPauseRequested != true || isNewTrack))
+                music.Play(true);
 
             lastTrack.SetTarget(track);
         }

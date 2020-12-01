@@ -9,11 +9,11 @@ using osu.Game.Skinning;
 
 namespace osu.Game.Rulesets.Catch.Objects.Drawables
 {
-    public class DrawableDroplet : PalpableCatchHitObject<Droplet>
+    public class DrawableDroplet : DrawablePalpableCatchHitObject
     {
         public override bool StaysOnPlate => false;
 
-        public DrawableDroplet(Droplet h)
+        public DrawableDroplet(CatchHitObject h)
             : base(h)
         {
         }
@@ -21,11 +21,17 @@ namespace osu.Game.Rulesets.Catch.Objects.Drawables
         [BackgroundDependencyLoader]
         private void load()
         {
-            ScaleContainer.Child = new SkinnableDrawable(new CatchSkinComponent(CatchSkinComponents.Droplet), _ => new Pulp
-            {
-                Size = Size / 4,
-                AccentColour = { BindTarget = AccentColour }
-            });
+            HyperDash.BindValueChanged(_ => updatePiece(), true);
+        }
+
+        private void updatePiece()
+        {
+            ScaleContainer.Child = new SkinnableDrawable(
+                new CatchSkinComponent(CatchSkinComponents.Droplet),
+                _ => new DropletPiece
+                {
+                    HyperDash = { BindTarget = HyperDash }
+                });
         }
 
         protected override void UpdateInitialTransforms()

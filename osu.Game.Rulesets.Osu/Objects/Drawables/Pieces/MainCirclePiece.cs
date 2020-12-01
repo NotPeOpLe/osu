@@ -38,19 +38,25 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables.Pieces
             };
         }
 
-        private readonly IBindable<ArmedState> state = new Bindable<ArmedState>();
         private readonly IBindable<Color4> accentColour = new Bindable<Color4>();
         private readonly IBindable<int> indexInCurrentCombo = new Bindable<int>();
 
-        [BackgroundDependencyLoader]
-        private void load(DrawableHitObject drawableObject)
-        {
-            OsuHitObject osuObject = (OsuHitObject)drawableObject.HitObject;
+        [Resolved]
+        private DrawableHitObject drawableObject { get; set; }
 
-            state.BindTo(drawableObject.State);
-            state.BindValueChanged(updateState, true);
+        [BackgroundDependencyLoader]
+        private void load()
+        {
+            var drawableOsuObject = (DrawableOsuHitObject)drawableObject;
 
             accentColour.BindTo(drawableObject.AccentColour);
+            indexInCurrentCombo.BindTo(drawableOsuObject.IndexInCurrentComboBindable);
+        }
+
+        protected override void LoadComplete()
+        {
+            base.LoadComplete();
+
             accentColour.BindValueChanged(colour =>
             {
                 explode.Colour = colour.NewValue;
@@ -58,38 +64,43 @@ namespace osu.Game.Rulesets.Osu.Objects.Drawables.Pieces
                 circle.Colour = colour.NewValue;
             }, true);
 
-            indexInCurrentCombo.BindTo(osuObject.IndexInCurrentComboBindable);
             indexInCurrentCombo.BindValueChanged(index => number.Text = (index.NewValue + 1).ToString(), true);
+
+            drawableObject.ApplyCustomUpdateState += updateState;
+            updateState(drawableObject, drawableObject.State.Value);
         }
 
-        private void updateState(ValueChangedEvent<ArmedState> state)
+        private void updateState(DrawableHitObject drawableObject, ArmedState state)
         {
-            glow.FadeOut(400);
-
-            switch (state.NewValue)
+            using (BeginAbsoluteSequence(drawableObject.HitStateUpdateTime, true))
             {
-                case ArmedState.Hit:
-                    const double flash_in = 40;
-                    const double flash_out = 100;
+                glow.FadeOut(400);
 
-                    flash.FadeTo(0.8f, flash_in)
-                         .Then()
-                         .FadeOut(flash_out);
+                switch (state)
+                {
+                    case ArmedState.Hit:
+                        const double flash_in = 40;
+                        const double flash_out = 100;
 
-                    explode.FadeIn(flash_in);
-                    this.ScaleTo(1.5f, 400, Easing.OutQuad);
+                        flash.FadeTo(0.8f, flash_in)
+                             .Then()
+                             .FadeOut(flash_out);
 
-                    using (BeginDelayedSequence(flash_in, true))
-                    {
-                        // after the flash, we can hide some elements that were behind it
-                        ring.FadeOut();
-                        circle.FadeOut();
-                        number.FadeOut();
+                        explode.FadeIn(flash_in);
+                        this.ScaleTo(1.5f, 400, Easing.OutQuad);
 
-                        this.FadeOut(800);
-                    }
+                        using (BeginDelayedSequence(flash_in, true))
+                        {
+                            // after the flash, we can hide some elements that were behind it
+                            ring.FadeOut();
+                            circle.FadeOut();
+                            number.FadeOut();
 
-                    break;
+                            this.FadeOut(800);
+                        }
+
+                        break;
+                }
             }
         }
     }

@@ -53,23 +53,30 @@ namespace osu.Game.Rulesets.Catch.UI
                 explodingFruitContainer,
                 CatcherArea.MovableCatcher.CreateProxiedContent(),
                 HitObjectContainer,
-                CatcherArea
+                CatcherArea,
             };
         }
 
-        public bool CheckIfWeCanCatch(CatchHitObject obj) => CatcherArea.AttemptCatch(obj);
-
-        public override void Add(DrawableHitObject h)
+        protected override void LoadComplete()
         {
-            h.OnNewResult += onNewResult;
+            base.LoadComplete();
 
-            base.Add(h);
-
-            var fruit = (DrawableCatchHitObject)h;
-            fruit.CheckPosition = CheckIfWeCanCatch;
+            // these subscriptions need to be done post constructor to ensure externally bound components have a chance to populate required fields (ScoreProcessor / ComboAtJudgement in this case).
+            NewResult += onNewResult;
+            RevertResult += onRevertResult;
         }
 
+        protected override void OnNewDrawableHitObject(DrawableHitObject d)
+        {
+            ((DrawableCatchHitObject)d).CheckPosition = checkIfWeCanCatch;
+        }
+
+        private bool checkIfWeCanCatch(CatchHitObject obj) => CatcherArea.AttemptCatch(obj);
+
         private void onNewResult(DrawableHitObject judgedObject, JudgementResult result)
-            => CatcherArea.OnResult((DrawableCatchHitObject)judgedObject, result);
+            => CatcherArea.OnNewResult((DrawableCatchHitObject)judgedObject, result);
+
+        private void onRevertResult(DrawableHitObject judgedObject, JudgementResult result)
+            => CatcherArea.OnRevertResult((DrawableCatchHitObject)judgedObject, result);
     }
 }

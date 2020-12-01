@@ -29,7 +29,7 @@ namespace osu.Game.Rulesets.Edit
         /// <summary>
         /// The <see cref="HitObject"/> that is being placed.
         /// </summary>
-        protected readonly HitObject HitObject;
+        public readonly HitObject HitObject;
 
         [Resolved(canBeNull: true)]
         protected EditorClock EditorClock { get; private set; }
@@ -85,10 +85,10 @@ namespace osu.Game.Rulesets.Edit
         }
 
         /// <summary>
-        /// Updates the position of this <see cref="PlacementBlueprint"/> to a new screen-space position.
+        /// Updates the time and position of this <see cref="PlacementBlueprint"/> based on the provided snap information.
         /// </summary>
         /// <param name="result">The snap result information.</param>
-        public virtual void UpdatePosition(SnapResult result)
+        public virtual void UpdateTimeAndPosition(SnapResult result)
         {
             if (!PlacementActive)
                 HitObject.StartTime = result.Time ?? EditorClock?.CurrentTime ?? Time.Current;

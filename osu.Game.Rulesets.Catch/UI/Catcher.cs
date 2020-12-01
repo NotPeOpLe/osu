@@ -9,6 +9,7 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Animations;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Graphics.Pooling;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Utils;
 using osu.Game.Beatmaps;
@@ -64,7 +65,7 @@ namespace osu.Game.Rulesets.Catch.UI
         /// <summary>
         /// The width of the catcher which can receive fruit. Equivalent to "catchMargin" in osu-stable.
         /// </summary>
-        private const float allowed_catch_range = 0.8f;
+        public const float ALLOWED_CATCH_RANGE = 0.8f;
 
         /// <summary>
         /// The drawable catcher for <see cref="CurrentState"/>.
@@ -107,6 +108,9 @@ namespace osu.Game.Rulesets.Catch.UI
         private float hyperDashTargetPosition;
         private Bindable<bool> hitLighting;
 
+        private DrawablePool<HitExplosion> hitExplosionPool;
+        private Container<HitExplosion> hitExplosionContainer;
+
         public Catcher([NotNull] Container trailsTarget, BeatmapDifficulty difficulty = null)
         {
             this.trailsTarget = trailsTarget;
@@ -127,6 +131,7 @@ namespace osu.Game.Rulesets.Catch.UI
 
             InternalChildren = new Drawable[]
             {
+                hitExplosionPool = new DrawablePool<HitExplosion>(10),
                 caughtFruitContainer,
                 catcherIdle = new CatcherSprite(CatcherAnimationState.Idle)
                 {
@@ -142,12 +147,25 @@ namespace osu.Game.Rulesets.Catch.UI
                 {
                     Anchor = Anchor.TopCentre,
                     Alpha = 0,
-                }
+                },
+                hitExplosionContainer = new Container<HitExplosion>
+                {
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.BottomCentre,
+                },
             };
 
-            trailsTarget.Add(trails = new CatcherTrailDisplay(this));
+            trails = new CatcherTrailDisplay(this);
 
             updateCatcher();
+        }
+
+        protected override void LoadComplete()
+        {
+            base.LoadComplete();
+
+            // don't add in above load as we may potentially modify a parent in an unsafe manner.
+            trailsTarget.Add(trails);
         }
 
         /// <summary>
@@ -166,7 +184,7 @@ namespace osu.Game.Rulesets.Catch.UI
         /// </summary>
         /// <param name="scale">The scale of the catcher.</param>
         internal static float CalculateCatchWidth(Vector2 scale)
-            => CatcherArea.CATCHER_SIZE * Math.Abs(scale.X) * allowed_catch_range;
+            => CatcherArea.CATCHER_SIZE * Math.Abs(scale.X) * ALLOWED_CATCH_RANGE;
 
         /// <summary>
         /// Calculates the width of the area used for attempting catches in gameplay.
@@ -201,21 +219,24 @@ namespace osu.Game.Rulesets.Catch.UI
 
             if (hitLighting.Value)
             {
-                AddInternal(new HitExplosion(fruit)
-                {
-                    X = fruit.X,
-                    Scale = new Vector2(fruit.HitObject.Scale)
-                });
+                HitExplosion hitExplosion = hitExplosionPool.Get();
+                hitExplosion.X = fruit.X;
+                hitExplosion.Scale = new Vector2(fruit.HitObject.Scale);
+                hitExplosion.ObjectColour = fruit.AccentColour.Value;
+                hitExplosionContainer.Add(hitExplosion);
             }
         }
 
         /// <summary>
         /// Let the catcher attempt to catch a fruit.
         /// </summary>
-        /// <param name="fruit">The fruit to catch.</param>
+        /// <param name="hitObject">The fruit to catch.</param>
         /// <returns>Whether the catch is possible.</returns>
-        public bool AttemptCatch(CatchHitObject fruit)
+        public bool AttemptCatch(CatchHitObject hitObject)
         {
+            if (!(hitObject is PalpableCatchHitObject fruit))
+                return false;
+
             var halfCatchWidth = catchWidth * 0.5f;
 
             // this stuff wil disappear once we move fruit to non-relative coordinate space in the future.
@@ -226,9 +247,8 @@ namespace osu.Game.Rulesets.Catch.UI
                 catchObjectPosition >= catcherPosition - halfCatchWidth &&
                 catchObjectPosition <= catcherPosition + halfCatchWidth;
 
-            // only update hyperdash state if we are catching a fruit.
-            // exceptions are Droplets and JuiceStreams.
-            if (!(fruit is Fruit)) return validCatch;
+            // only update hyperdash state if we are not catching a tiny droplet.
+            if (fruit is TinyDroplet) return validCatch;
 
             if (validCatch && fruit.HyperDash)
             {
@@ -283,8 +303,6 @@ namespace osu.Game.Rulesets.Catch.UI
 
         private void runHyperDashStateTransition(bool hyperDashing)
         {
-            trails.HyperDashTrailsColour = hyperDashColour;
-            trails.EndGlowSpritesColour = hyperDashEndGlowColour;
             updateTrailVisibility();
 
             if (hyperDashing)
@@ -400,6 +418,9 @@ namespace osu.Game.Rulesets.Catch.UI
             hyperDashEndGlowColour =
                 skin.GetConfig<CatchSkinColour, Color4>(CatchSkinColour.HyperDashAfterImage)?.Value ??
                 hyperDashColour;
+
+            trails.HyperDashTrailsColour = hyperDashColour;
+            trails.EndGlowSpritesColour = hyperDashEndGlowColour;
 
             runHyperDashStateTransition(HyperDashing);
         }
