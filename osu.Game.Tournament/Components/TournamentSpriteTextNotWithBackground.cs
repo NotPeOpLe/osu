@@ -8,22 +8,16 @@ using osu.Game.Graphics;
 
 namespace osu.Game.Tournament.Components
 {
-    public class TournamentSpriteTextWithBackground : CompositeDrawable
+    public class TournamentSpriteTextNotWithBackground : CompositeDrawable
     {
         protected readonly TournamentSpriteText Text;
-        protected readonly Box Background;
 
-        public TournamentSpriteTextWithBackground(string text = "")
+        public TournamentSpriteTextNotWithBackground(string text = "")
         {
             AutoSizeAxes = Axes.Both;
 
             InternalChildren = new Drawable[]
             {
-                Background = new Box
-                {
-                    Colour = TournamentGame.ELEMENT_BACKGROUND_COLOUR,
-                    RelativeSizeAxes = Axes.Both,
-                },
                 Text = new TournamentSpriteText
                 {
                     Colour = TournamentGame.ELEMENT_FOREGROUND_COLOUR,

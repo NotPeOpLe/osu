@@ -48,31 +48,34 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                 return;
             }
 
-            const float y_flag_offset = 292;
+            //const float y_flag_offset = 292;
 
-            const float y_offset = 460;
+            const float y_offset = 360;
 
             mainContainer.Children = new Drawable[]
             {
                 new RoundDisplay(match.NewValue)
                 {
-                    Position = new Vector2(100, 100)
+                    Y = -100,
+                    Anchor = Anchor.BottomCentre,
+                    Origin = Anchor.BottomCentre,
                 },
-                new DrawableTeamFlag(match.NewValue.Team1.Value)
+                /*new DrawableTeamFlag(match.NewValue.Team1.Value)
                 {
-                    Position = new Vector2(165, y_flag_offset),
+                    Position = new Vector2(440, y_flag_offset),
+                },*/
+                new DrawableTeamWithPlayers2(match.NewValue.Team1.Value, TeamColour.Red)
+                {
+                    Origin = Anchor.TopRight,
+                    Position = new Vector2(600, y_offset),
                 },
-                new DrawableTeamWithPlayers(match.NewValue.Team1.Value, TeamColour.Red)
+                /*new DrawableTeamFlag(match.NewValue.Team2.Value)
                 {
-                    Position = new Vector2(165, y_offset),
-                },
-                new DrawableTeamFlag(match.NewValue.Team2.Value)
+                    Position = new Vector2(760, y_flag_offset),
+                },*/
+                new DrawableTeamWithPlayers2(match.NewValue.Team2.Value, TeamColour.Blue)
                 {
-                    Position = new Vector2(740, y_flag_offset),
-                },
-                new DrawableTeamWithPlayers(match.NewValue.Team2.Value, TeamColour.Blue)
-                {
-                    Position = new Vector2(740, y_offset),
+                    Position = new Vector2(760, y_offset),
                 },
             };
         }

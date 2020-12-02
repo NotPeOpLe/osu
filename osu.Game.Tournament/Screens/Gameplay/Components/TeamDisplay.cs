@@ -28,10 +28,10 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
 
             var anchor = flip ? Anchor.TopLeft : Anchor.TopRight;
 
-            Flag.RelativeSizeAxes = Axes.None;
+            /*Flag.RelativeSizeAxes = Axes.None;
             Flag.Scale = new Vector2(0.8f);
             Flag.Origin = anchor;
-            Flag.Anchor = anchor;
+            Flag.Anchor = anchor;*/
 
             Margin = new MarginPadding(20);
 
@@ -47,7 +47,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                         Spacing = new Vector2(5),
                         Children = new Drawable[]
                         {
-                            Flag,
+                            //Flag,
                             new FillFlowContainer
                             {
                                 AutoSizeAxes = Axes.Both,

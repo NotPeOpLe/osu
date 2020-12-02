@@ -26,9 +26,9 @@ namespace osu.Game.Tournament
         public static readonly Color4 COLOUR_BLUE = Color4Extensions.FromHex("#1462AA");
 
         public static readonly Color4 ELEMENT_BACKGROUND_COLOUR = Color4Extensions.FromHex("#fff");
-        public static readonly Color4 ELEMENT_FOREGROUND_COLOUR = Color4Extensions.FromHex("#000");
+        public static readonly Color4 ELEMENT_FOREGROUND_COLOUR = Color4Extensions.FromHex("#111");
 
-        public static readonly Color4 TEXT_COLOUR = Color4Extensions.FromHex("#fff");
+        public static readonly Color4 TEXT_COLOUR = Color4Extensions.FromHex("#111");
         private Drawable heightWarning;
         private Bindable<Size> windowSize;
         private Bindable<WindowMode> windowMode;

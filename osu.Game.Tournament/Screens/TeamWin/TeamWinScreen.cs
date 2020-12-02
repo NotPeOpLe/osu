@@ -101,7 +101,6 @@ namespace osu.Game.Tournament.Screens.TeamWin
                     Direction = FillDirection.Vertical,
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    X = 260,
                     Children = new Drawable[]
                     {
                         new RoundDisplay(match)
@@ -110,11 +109,18 @@ namespace osu.Game.Tournament.Screens.TeamWin
                         },
                         new TournamentSpriteText
                         {
+                            Anchor = Anchor.TopCentre,
+                            Origin = Anchor.TopCentre,
                             Text = "WINNER",
                             Font = OsuFont.Torus.With(size: 100, weight: FontWeight.Bold),
+                            Colour = TournamentGame.TEXT_COLOUR,
                             Margin = new MarginPadding { Bottom = 50 },
                         },
                         new DrawableTeamWithPlayers(match.Winner, match.WinnerColour)
+                        {
+                            Anchor = Anchor.TopCentre,
+                            Origin = Anchor.TopCentre,
+                        }
                     }
                 },
             };

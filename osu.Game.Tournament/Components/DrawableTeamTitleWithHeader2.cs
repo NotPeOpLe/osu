@@ -8,16 +8,16 @@ using osuTK;
 
 namespace osu.Game.Tournament.Components
 {
-    public class DrawableTeamTitleWithHeader : CompositeDrawable
+    public class DrawableTeamTitleWithHeader2 : CompositeDrawable
     {
-        public DrawableTeamTitleWithHeader(TournamentTeam team, TeamColour colour)
+        public DrawableTeamTitleWithHeader2(TournamentTeam team, TeamColour colour)
         {
             AutoSizeAxes = Axes.Both;
 
             InternalChild = new FillFlowContainer
             {
-                Anchor = Anchor.Centre,
-                Origin = Anchor.Centre,
+                Anchor = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
+                Origin = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
                 AutoSizeAxes = Axes.Both,
                 Direction = FillDirection.Vertical,
                 Spacing = new Vector2(0, 10),
@@ -25,13 +25,13 @@ namespace osu.Game.Tournament.Components
                 {
                     new DrawableTeamHeader(colour)
                     {
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
+                        Anchor = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
+                        Origin = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
                     },
-                    new DrawableTeamTitle(team)
+                    new DrawableTeamTitle2(team)
                     {
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
+                        Anchor = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
+                        Origin = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
                     },
                 }
             };

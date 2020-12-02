@@ -12,9 +12,9 @@ using osuTK.Graphics;
 
 namespace osu.Game.Tournament.Components
 {
-    public class DrawableTeamWithPlayers : CompositeDrawable
+    public class DrawableTeamWithPlayers2 : CompositeDrawable
     {
-        public DrawableTeamWithPlayers(TournamentTeam team, TeamColour colour)
+        public DrawableTeamWithPlayers2(TournamentTeam team, TeamColour colour)
         {
             AutoSizeAxes = Axes.Both;
 
@@ -22,28 +22,22 @@ namespace osu.Game.Tournament.Components
             {
                 new FillFlowContainer
                 {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
                     AutoSizeAxes = Axes.Both,
                     Direction = FillDirection.Vertical,
                     Spacing = new Vector2(30),
                     Children = new Drawable[]
                     {
-                        new DrawableTeamTitleWithHeader(team, colour)
-                        {
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.TopCentre,
-                        },
                         new FillFlowContainer
                         {
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.TopCentre,
+                            Anchor = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
+                            Origin = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
                             AutoSizeAxes = Axes.Both,
                             Direction = FillDirection.Horizontal,
                             Padding = new MarginPadding { Left = 10 },
                             Spacing = new Vector2(30),
                             Children = new Drawable[]
                             {
+
                                 new FillFlowContainer
                                 {
                                     Direction = FillDirection.Vertical,
@@ -52,6 +46,11 @@ namespace osu.Game.Tournament.Components
                                 }
                             }
                         },
+                        new DrawableTeamTitleWithHeader2(team, colour)
+                        {
+                            Anchor = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
+                            Origin = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
+                        },
                     }
                 },
             };
@@ -59,8 +58,8 @@ namespace osu.Game.Tournament.Components
             TournamentSpriteText createPlayerText(User p) =>
                 new TournamentSpriteText
                 {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
+                    Anchor = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
+                    Origin = colour == TeamColour.Red ? Anchor.TopRight : Anchor.TopLeft,
                     Text = p.Username,
                     Font = OsuFont.Torus.With(size: 24, weight: FontWeight.SemiBold),
                     Colour = TournamentGame.TEXT_COLOUR,
