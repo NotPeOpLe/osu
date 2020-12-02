@@ -129,6 +129,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
         private class MatchScoreCounter : ScoreCounter
         {
             private OsuSpriteText displayedSpriteText;
+            
 
             public MatchScoreCounter()
             {
@@ -143,6 +144,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             protected override OsuSpriteText CreateSpriteText() => base.CreateSpriteText().With(s =>
             {
                 displayedSpriteText = s;
+                displayedSpriteText.Colour = TournamentGame.TEXT_COLOUR;
                 displayedSpriteText.Spacing = new Vector2(-6);
                 updateFont(false);
             });

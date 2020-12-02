@@ -44,7 +44,7 @@ namespace osu.Game.Overlays.Chat
 
         private Color4 customUsernameColour;
 
-        private OsuSpriteText timestamp;
+        //private OsuSpriteText timestamp;
 
         public ChatLine(Message message)
         {
@@ -146,13 +146,13 @@ namespace osu.Game.Overlays.Chat
                     Size = new Vector2(MessagePadding, TextSize),
                     Children = new Drawable[]
                     {
-                        timestamp = new OsuSpriteText
+                        /*timestamp = new OsuSpriteText
                         {
                             Shadow = false,
                             Anchor = Anchor.CentreLeft,
                             Origin = Anchor.CentreLeft,
                             Font = OsuFont.GetFont(size: TextSize * 0.75f, weight: FontWeight.SemiBold, fixedWidth: true)
-                        },
+                        },*/
                         new MessageSender(message.Sender)
                         {
                             AutoSizeAxes = Axes.Both,
@@ -203,9 +203,9 @@ namespace osu.Game.Overlays.Chat
         private void updateMessageContent()
         {
             this.FadeTo(message is LocalEchoMessage ? 0.4f : 1.0f, 500, Easing.OutQuint);
-            timestamp.FadeTo(message is LocalEchoMessage ? 0 : 1, 500, Easing.OutQuint);
+            //timestamp.FadeTo(message is LocalEchoMessage ? 0 : 1, 500, Easing.OutQuint);
 
-            timestamp.Text = $@"{message.Timestamp.LocalDateTime:HH:mm:ss}";
+            //timestamp.Text = $@"{message.Timestamp.LocalDateTime:HH:mm:ss}";
             username.Text = $@"{message.Sender.Username}" + (senderHasBackground || message.IsAction ? "" : ":");
 
             // remove non-existent channels from the link list

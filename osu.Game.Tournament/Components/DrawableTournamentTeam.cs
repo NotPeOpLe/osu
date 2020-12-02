@@ -17,9 +17,11 @@ namespace osu.Game.Tournament.Components
 
         protected readonly Container Flag;
         protected readonly TournamentSpriteText AcronymText;
+        protected readonly TournamentSpriteText FullNameText;
 
         [UsedImplicitly]
         private Bindable<string> acronym;
+        private Bindable<string> fullname;
 
         protected DrawableTournamentTeam(TournamentTeam team)
         {
@@ -27,6 +29,10 @@ namespace osu.Game.Tournament.Components
 
             Flag = new DrawableTeamFlag(team);
             AcronymText = new TournamentSpriteText
+            {
+                Font = OsuFont.Torus.With(weight: FontWeight.Regular),
+            };
+            FullNameText = new TournamentSpriteText
             {
                 Font = OsuFont.Torus.With(weight: FontWeight.Regular),
             };
@@ -38,6 +44,7 @@ namespace osu.Game.Tournament.Components
             if (Team == null) return;
 
             (acronym = Team.Acronym.GetBoundCopy()).BindValueChanged(acronym => AcronymText.Text = Team?.Acronym.Value?.ToUpperInvariant() ?? string.Empty, true);
+            (fullname = Team.FullName.GetBoundCopy()).BindValueChanged(fullname => FullNameText.Text = Team?.FullName.Value ?? string.Empty, true);
         }
     }
 }

@@ -177,14 +177,14 @@ namespace osu.Game.Tournament.Screens.Schedule
                                         Origin = Anchor.CentreLeft,
                                         Scale = new Vector2(0.5f)
                                     },
-                                    new TournamentSpriteText
+                                    /*new TournamentSpriteText
                                     {
                                         Anchor = Anchor.CentreLeft,
                                         Origin = Anchor.CentreLeft,
                                         Text = match.NewValue.Team1.Value?.FullName + " vs " + match.NewValue.Team2.Value?.FullName,
                                         Font = OsuFont.Torus.With(size: 24, weight: FontWeight.SemiBold),
                                         Colour = TournamentGame.TEXT_COLOUR
-                                    },
+                                    },*/
                                     new FillFlowContainer
                                     {
                                         AutoSizeAxes = Axes.Both,
@@ -214,7 +214,7 @@ namespace osu.Game.Tournament.Screens.Schedule
             };
         }
 
-        public class ScheduleMatch : DrawableTournamentMatch
+        public class ScheduleMatch : DrawableTournamentMatchFullName
         {
             public ScheduleMatch(TournamentMatch match, bool showTimestamp = true)
                 : base(match)

@@ -22,7 +22,7 @@ using osuTK.Input;
 
 namespace osu.Game.Tournament.Screens.Ladder.Components
 {
-    public class DrawableMatchTeam : DrawableTournamentTeam, IHasContextMenu
+    public class DrawableMatchTeamFullName : DrawableTournamentTeam, IHasContextMenu
     {
         private readonly TournamentMatch match;
         private readonly bool losers;
@@ -56,19 +56,19 @@ namespace osu.Game.Tournament.Screens.Ladder.Components
         [Resolved(CanBeNull = true)]
         private LadderEditorInfo editorInfo { get; set; }
 
-        public DrawableMatchTeam(TournamentTeam team, TournamentMatch match, bool losers)
+        public DrawableMatchTeamFullName(TournamentTeam team, TournamentMatch match, bool losers)
             : base(team)
         {
             this.match = match;
             this.losers = losers;
-            Size = new Vector2(150, 40);
+            Size = new Vector2(255, 40);
 
             //Flag.Scale = new Vector2(0.54f);
             //Flag.Anchor = Flag.Origin = Anchor.CentreLeft;
 
-            AcronymText.Anchor = AcronymText.Origin = Anchor.CentreLeft;
-            AcronymText.Padding = new MarginPadding { Left = 10 };
-            AcronymText.Font = OsuFont.Torus.With(size: 22, weight: FontWeight.Bold);
+            FullNameText.Anchor = FullNameText.Origin = Anchor.CentreLeft;
+            FullNameText.Padding = new MarginPadding { Left = 10 };
+            FullNameText.Font = OsuFont.Torus.With(size: 22, weight: FontWeight.Bold);
 
             if (match != null)
             {
@@ -101,13 +101,13 @@ namespace osu.Game.Tournament.Screens.Ladder.Components
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]
                     {
-                        AcronymText,
+                        FullNameText,
                     }
                 },
                 new Container
                 {
                     Masking = true,
-                    Width = 0.3f,
+                    Width = 0.17f,
                     Anchor = Anchor.CentreRight,
                     Origin = Anchor.CentreRight,
                     RelativeSizeAxes = Axes.Both,
